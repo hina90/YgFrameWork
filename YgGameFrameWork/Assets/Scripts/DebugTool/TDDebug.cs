@@ -173,7 +173,7 @@ public class TDDebug : UnitySingleton<TDDebug>
         ugui_root = GameObject.Find("ugui_root");
         if(ugui_root == null)
         {
-            GameObject ugui_root_asset = Resources.Load("ugui_root") as GameObject;
+            GameObject ugui_root_asset = Resources.Load("Debug/ugui_root") as GameObject;
             ugui_root = GameObject.Instantiate(ugui_root_asset);
             ugui_root.name = "ugui_root";
             ugui_root_asset = null;

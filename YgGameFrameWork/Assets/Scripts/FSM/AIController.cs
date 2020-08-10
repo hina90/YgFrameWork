@@ -1,15 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Pathfinding;
 /// <summary>
 /// AI操控类
 /// </summary>
 public class AIController : AdvancedFSM
 {
-    private Path path;
-    private AILerp aiLerp;
-    private Seeker seeker;
+    //private Path path;
+    //private AILerp aiLerp;
+    //private Seeker seeker;
     private Rigidbody2D rb;
     protected BaseActor actor;
     private int currentWaypoint = 0;
@@ -34,27 +33,27 @@ public class AIController : AdvancedFSM
     /// </summary>
     private void ConstructCom()
     { 
-        seeker = GetComponent<Seeker>();
-        rb = GetComponent<Rigidbody2D>();
-        aiLerp = GetComponent<AILerp>();
+        //seeker = GetComponent<Seeker>();
+        //rb = GetComponent<Rigidbody2D>();
+        //aiLerp = GetComponent<AILerp>();
     }
     /// <summary>
     /// 获取路径点
     /// </summary>
     /// <param name="p"></param>
-    void OnPathComplete(Path p)
+    void OnPathComplete(/*Path p*/)
     {
-        p.Claim(this);
-        if (!p.error)
-        {
-            if (path != null) path.Release(this);
-            path = p;
-            currentWaypoint = 0;
-        }
-        else
-        {
-            p.Release(this);
-        }
+        //p.Claim(this);
+        //if (!p.error)
+        //{
+        //    if (path != null) path.Release(this);
+        //    path = p;
+        //    currentWaypoint = 0;
+        //}
+        //else
+        //{
+        //    p.Release(this);
+        //}
     }
     /// <summary>
     /// 
@@ -62,11 +61,17 @@ public class AIController : AdvancedFSM
     /// </summary>
     public void FindPath(Transform trans)
     {
-        if (Time.time > lastRepath + repathRate && seeker.IsDone())
-        {
-            lastRepath = Time.time;
-            seeker.StartPath(rb.position, trans.position, OnPathComplete);
-        }
+        //if (Time.time > lastRepath + repathRate && seeker.IsDone())
+        //{
+        //    lastRepath = Time.time;
+        //    seeker.StartPath(rb.position, trans.position, OnPathComplete);
+        //}
+
+
+
+
+
+
         //if (path == null)
         //    return false;
 
@@ -98,54 +103,54 @@ public class AIController : AdvancedFSM
     public bool FaceDirection(Transform trans)
     {
         reachedEndOfPath = false;
-        if (null != path)
-        {
-            float distanceToWaypoint;
-            while (true)
-            {
-                distanceToWaypoint = Vector3.Distance(transform.position, path.vectorPath[currentWaypoint]);
-                if (distanceToWaypoint < nextWaypointDistance)
-                {
-                    if (currentWaypoint + 1 < path.vectorPath.Count)
-                    {
-                        currentWaypoint++;
-                    }
-                    else
-                    {
-                        reachedEndOfPath = true;
-                        break;
-                    }
-                }
-                else break;
-            }
-            Vector2 direction = ((Vector2)path.vectorPath[currentWaypoint] - rb.position).normalized;
-            //actor.RunFaceDirection(direction, reachedEndOfPath, trans.name);//设置朝向
-        }
+        //if (null != path)
+        //{
+        //    float distanceToWaypoint;
+        //    while (true)
+        //    {
+        //        distanceToWaypoint = Vector3.Distance(transform.position, path.vectorPath[currentWaypoint]);
+        //        if (distanceToWaypoint < nextWaypointDistance)
+        //        {
+        //            if (currentWaypoint + 1 < path.vectorPath.Count)
+        //            {
+        //                currentWaypoint++;
+        //            }
+        //            else
+        //            {
+        //                reachedEndOfPath = true;
+        //                break;
+        //            }
+        //        }
+        //        else break;
+        //    }
+        //    Vector2 direction = ((Vector2)path.vectorPath[currentWaypoint] - rb.position).normalized;
+        //    //actor.RunFaceDirection(direction, reachedEndOfPath, trans.name);//设置朝向
+        //}
 
         return reachedEndOfPath;
     }
     /// <summary>
     /// 是否到达目标点
      /// <returns></returns>
-    public bool IsReached()
-    {
-        return aiLerp.reachedEndOfPath;
-    }
+    //public bool IsReached()
+    //{
+    //    return aiLerp.reachedEndOfPath;
+    //}
     /// <summary>
     /// 设置速度
     /// </summary>
     /// <param name="speed"></param>
-    public float MoveSpeed
-    {
-        get { return aiLerp.speed; }
-        set { aiLerp.speed = value; }
-    }
+    //public float MoveSpeed
+    //{
+    //    get { return aiLerp.speed; }
+    //    set { aiLerp.speed = value; }
+    //}
     /// <summary>
     /// 停止寻路
     /// </summary>
     public void SetFindPathEnable(bool enable)
     {
-        aiLerp.canMove = enable;
+        //aiLerp.canMove = enable;
     }
     /// <summary>
     /// 构造FSM

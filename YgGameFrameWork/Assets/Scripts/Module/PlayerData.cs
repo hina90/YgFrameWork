@@ -28,7 +28,7 @@ public class PlayerData
                 OwnItem[(int)ePlayerItem.Gold] = value;
             UIManager.Instance.SendUIEvent(GameEvent.UPDATE_MONEY_BAR);
             UIManager.Instance.SendUIEvent(GameEvent.UPDATE_CULTIVATE_STATUS);
-            GameDataManager.Instance.SaveGameData();
+            //GameDataManager.Instance.SaveGameData();
         }
         get
         {
@@ -47,7 +47,7 @@ public class PlayerData
             else
                 OwnItem[(int)ePlayerItem.Diamond] = value;
             UIManager.Instance.SendUIEvent(GameEvent.UPDATE_MONEY_BAR);
-            GameDataManager.Instance.SaveGameData();
+            //GameDataManager.Instance.SaveGameData();
         }
         get
         {
@@ -66,7 +66,7 @@ public class PlayerData
             else
                 OwnItem[(int)ePlayerItem.DigCostItem] = value;
             UIManager.Instance.SendUIEvent(GameEvent.UPDATE_MONEY_BAR);
-            GameDataManager.Instance.SaveGameData();
+            //GameDataManager.Instance.SaveGameData();
         }
         get
         {
@@ -176,7 +176,6 @@ public class PlayerData
                 }
             }
         }
-        GameDataManager.Instance.SaveGameData();
     }
 
     public int getDecorationSliderVule(int CulID)

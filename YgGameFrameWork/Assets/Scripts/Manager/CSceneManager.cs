@@ -5,7 +5,7 @@ using System.Collections.Generic;
 /// <summary>
 /// 场景管理类
 /// </summary>
-public class CSceneManager : UnitySingleton<CSceneManager>
+public class CSceneManager : BaseManager
 {
     //场景加载器
     private SceneLoader sceneLoader = null;
@@ -15,6 +15,32 @@ public class CSceneManager : UnitySingleton<CSceneManager>
     private Callback<float> OnBaseProgress = null;
     //场景是否加载完成
     private bool isSceneLoadOK = true;
+
+    //当前场景
+    private BaseScene currentScene;
+    private Dictionary<string, BaseScene> sceneDic = new Dictionary<string, BaseScene>();
+
+    /// <summary>
+    /// 初始化场景
+    /// </summary>
+    public override void Initialize()
+    {
+        sceneDic["LevelGameScene"] = new LevelGameScene();
+        //sceneDic["BattleScene"] = new BattleScene();
+    }
+
+    public override void OnUpdate(float deltaTime)
+    {
+        if (currentScene != null)
+        {
+            currentScene.OnUpdate(deltaTime);
+        }
+    }
+
+    public override void OnDispose()
+    {
+        throw new System.NotImplementedException();
+    }
 
 
     /// <summary>
@@ -109,11 +135,7 @@ public class CSceneManager : UnitySingleton<CSceneManager>
     {
         if (sceneLoader == null)
         {
-            sceneLoader = gameObject.GetComponent<SceneLoader>();
-            if (sceneLoader == null)
-            {
-                sceneLoader = gameObject.AddComponent<SceneLoader>();
-            }
+            sceneLoader = new SceneLoader();
         }
 
         return sceneLoader;
@@ -160,27 +182,6 @@ public class CSceneManager : UnitySingleton<CSceneManager>
         camera.transform.position = new Vector3(x, y, z);
     }
 
-    //当前场景
-    private BaseScene currentScene;
-    private Dictionary<string, BaseScene> sceneDic = new Dictionary<string, BaseScene>();
-    /// <summary>
-    /// 初始化所有场景数据
-    /// </summary>
-    public void Init()
-    {
-        sceneDic["LevelGameScene"] = new LevelGameScene();
-        //sceneDic["BattleScene"] = new BattleScene();
-    }
-    /// <summary>
-    /// 场景帧事件
-    /// </summary>
-    public void MainUpdate()
-    {
-        if(currentScene != null)
-        {
-            currentScene.MainUpdate();
-        }
-    }
     /// <summary>
     /// 
     /// </summary>

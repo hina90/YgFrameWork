@@ -56,10 +56,10 @@ public class UI_Loading : UIBase
         //加载完成
         eventDic[GameEvent.SCENE_LOAD_COMPLETE] = delegate (object[] param)
         {
-            TimerManager.Instance.CreateUnityTimer(0.1f, () =>
-            {
-                UIManager.Instance.CloseUI(LayerMenue.LOADING);
-            });
+            //TimerManager.Instance.CreateUnityTimer(0.1f, () =>
+            //{
+            //    UIManager.Instance.CloseUI(LayerMenue.LOADING);
+            //});
         };
 
         return eventDic;

@@ -9,8 +9,10 @@ using UnityEditor;
 /// <summary>
 /// 配置储存管理
 /// </summary>
-public class ConfigManager : UnitySingleton<ConfigManager>
+public class ConfigManager : BaseObject
 {
+    private static ConfigManager instance;
+
     //缓存目录
     private Dictionary<string, string> configInfo = new Dictionary<string, string>();
     //文件流
@@ -23,22 +25,23 @@ public class ConfigManager : UnitySingleton<ConfigManager>
     public string UserKey { get; set; }
 
 
-    //获取文件流读取器
-    private StreamReader GetFileStreamReader()
+    /// <summary>
+    /// 创建
+    /// </summary>
+    /// <returns></returns>
+    public static ConfigManager Create()
     {
-        if (fileStream == null)
+        if(instance == null)
         {
-            StringBuilder configPath = new StringBuilder();
-            configPath.Append(Application.persistentDataPath).Append("/").Append("commonConfig.cfg");
-            fileStream = new FileStream(configPath.ToString(), FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.ReadWrite);
-            streamReader = new StreamReader(fileStream);
+            instance = new ConfigManager();
         }
-        return streamReader;
+        return instance;
     }
+
     /// <summary>
     /// 初始话本地储存数据
     /// </summary>
-    public void Init()
+    public override void Initialize()
     {
         streamReader = GetFileStreamReader();
         string line;
@@ -52,6 +55,26 @@ public class ConfigManager : UnitySingleton<ConfigManager>
                 configInfo.Add(key_v[0], key_v[1]);
             }
         }
+    }
+    public override void OnUpdate(float deltaTime)
+    {
+        throw new System.NotImplementedException();
+    }
+    public override void OnDispose()
+    {
+        throw new System.NotImplementedException();
+    }
+    //获取文件流读取器
+    private StreamReader GetFileStreamReader()
+    {
+        if (fileStream == null)
+        {
+            StringBuilder configPath = new StringBuilder();
+            configPath.Append(Application.persistentDataPath).Append("/").Append("commonConfig.cfg");
+            fileStream = new FileStream(configPath.ToString(), FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.ReadWrite);
+            streamReader = new StreamReader(fileStream);
+        }
+        return streamReader;
     }
     /// <summary>
     /// 从本地储存获取值
@@ -159,8 +182,6 @@ public class ConfigManager : UnitySingleton<ConfigManager>
             {
                 binary.Serialize(fs, data);
             }
-            //TDDebug.DebugLog("----------序列化成功-----------");
-            //AssetDatabase.Refresh();
         }
         catch (System.Exception e)
         {
@@ -220,7 +241,6 @@ public class ConfigManager : UnitySingleton<ConfigManager>
                     continue;
                 }
                 string FilePath = fullPath + "/" + files[i].Name;
-                print(FilePath);
                 File.Delete(FilePath);
             }
             return true;

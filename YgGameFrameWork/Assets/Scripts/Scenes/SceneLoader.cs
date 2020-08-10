@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 /// <summary>
 /// 场景类
 /// </summary>
-public class SceneLoader : MonoBehaviour
+public class SceneLoader : BaseBeheviour
 {
     private string sceneName = "";    //场景资源名字
 
@@ -19,7 +19,6 @@ public class SceneLoader : MonoBehaviour
     public void LoadScene(string scName, LoadSceneMode mode = LoadSceneMode.Additive)
     {
         sceneName = scName;
-        gameObject.SetActive(true);
         StartCoroutine(LoadNormalScene(mode));
     }
     IEnumerator LoadNormalScene(LoadSceneMode mode, float startPercent = 0)
@@ -39,7 +38,7 @@ public class SceneLoader : MonoBehaviour
             while (displayProgress < toProgress)
             {
                 ++displayProgress;
-                CSceneManager.Instance.OnLoadProgress(displayProgress / 100.0f);
+                sceneMgr.OnLoadProgress(displayProgress / 100.0f);
                 yield return null;
             }
             yield return null;
@@ -49,7 +48,7 @@ public class SceneLoader : MonoBehaviour
         while (displayProgress < toProgress)
         {
             ++displayProgress;
-            CSceneManager.Instance.OnLoadProgress(displayProgress / 100.0f);
+            sceneMgr.OnLoadProgress(displayProgress / 100.0f);
             yield return null;
         }
         op.allowSceneActivation = true;  //开启场景自动切换
@@ -58,7 +57,7 @@ public class SceneLoader : MonoBehaviour
         {
             Scene scene = SceneManager.GetSceneByName(sceneName);
             SceneManager.SetActiveScene(scene);
-            CSceneManager.Instance.OnLevelBaseLoaded();
+            sceneMgr.OnLevelBaseLoaded();
         }
     }
 

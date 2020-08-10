@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using Tool.Database;
-using Spine.Unity;
 
 /// <summary>
 /// 角色基类

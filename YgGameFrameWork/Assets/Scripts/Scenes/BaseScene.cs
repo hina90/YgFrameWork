@@ -12,7 +12,7 @@ public enum SceneState
 /// <summary>
 /// 场景基础类
 /// </summary>
-public class BaseScene
+public class BaseScene:BaseBeheviour
 {
     protected object[] param;                        //参数
     private int preState;                           //处理上一个场景的状态（销毁or隐藏）
@@ -50,7 +50,7 @@ public class BaseScene
         PreState = SceneState.ReleasePre;
 
         OnCreate(param);       
-        CSceneManager.Instance.LoadScene(ResName, PreState, 
+        sceneMgr.LoadScene(ResName, PreState, 
             delegate()
             {
                 Enter();
@@ -71,7 +71,7 @@ public class BaseScene
     /// <summary>
     /// 场景帧事件
     /// </summary>
-    public virtual void MainUpdate()
+    public new virtual void OnUpdate(float deltaTime)
     {
         
     }
@@ -82,12 +82,9 @@ public class BaseScene
     {
         return null;
     }
-    /// <summary>
-    /// 退出
-    /// </summary>
+
     public virtual void Quit()
     {
-        UIManager.Instance.CloseAllUI();
-        Resources.UnloadUnusedAssets();
+
     }
 }

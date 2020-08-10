@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public abstract class BaseBeheviour
 {
@@ -61,24 +62,30 @@ public abstract class BaseBeheviour
         InitComponent();
     }
     /// <summary>
-    /// 初始化组件
+    /// 初始化管理器
     /// </summary>
-    private static void InitComponent()
+    private static void InitManagers()
     {
-
+        AddManager<GameManager>();
+        AddManager<CSceneManager>();
     }
     /// <summary>
     /// 初始化扩展管理器
     /// </summary>
     private static void InitExtManager()
     {
-
+        ExtManagers.Add("ConfigManager", configMgr);
     }
-
-    private static void InitManagers()
+    /// <summary>
+    /// 初始化组件
+    /// </summary>
+    private static void InitComponent()
     {
-        AddManager<GameManager>();
+
     }
+   
+
+    
     /// <summary>
     /// 添加管理器
     /// </summary>
@@ -128,6 +135,35 @@ public abstract class BaseBeheviour
         }
         return ExtManagers[componentName];
     }
+
+
+    private static ConfigManager _configMgr;
+    public static ConfigManager configMgr
+    {
+        get
+        {
+            if(_configMgr == null)
+            {
+                _configMgr = ConfigManager.Create();
+            }
+            return _configMgr;
+        }
+    }
+
+    private static CSceneManager _sceneMgr;
+    public static CSceneManager sceneMgr
+    {
+        get
+        {
+            if(_sceneMgr == null)
+            {
+                _sceneMgr = GetManager<CSceneManager>();
+            }
+            return _sceneMgr;
+        }
+    }
+
+
     /// <summary>
     /// 控制器更新
     /// </summary>

@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 
-public class UIManager : UnitySingleton<UIManager>
+public class UIManager : BaseManager
 {
     private Dictionary<string, UIBase> uiDic = new Dictionary<string, UIBase>();
     private Dictionary<LayerMenue, UIBase> openUIDic = new Dictionary<LayerMenue, UIBase>();
@@ -16,10 +16,13 @@ public class UIManager : UnitySingleton<UIManager>
     private Camera uiCamera;
 
     public Camera UiCamera { get => uiCamera; }
+
+
+
     /// <summary>
     /// 初始化
     /// </summary>
-    public void Init()
+    public override void Initialize()
     {
         RegisterUI("UI_MainGame");
 
@@ -27,13 +30,25 @@ public class UIManager : UnitySingleton<UIManager>
         uiCamera = ugui.transform.Find("UI_Camera").GetComponent<Camera>();
         uiCamera.gameObject.SetActive(false);
     }
+
+    public override void OnUpdate(float deltaTime)
+    {
+         
+    }
+
+
+    public override void OnDispose()
+    {
+        
+    }
+
     /// <summary>
     /// 注册UI
     /// </summary>
     /// <param name="uiName">UI名字</param>
     private void RegisterUI(string uiName)
     {
-        ResourceManager.Instance.AddResource(uiName, ResouceType.UI);
+        //ResourceManager.Instance.AddResource(uiName, ResouceType.UI);
     }
     /// <summary>
     /// 打开UI
@@ -82,15 +97,16 @@ public class UIManager : UnitySingleton<UIManager>
     /// <typeparam name="T"></typeparam>
     private UIBase GetUIBase<T>(params object[] param) where T : UIBase
     {
-        string uiName = typeof(T).ToString();
-        GameObject uiObject = ResourceManager.Instance.GetResourceInstantiate(uiName, transform, ResouceType.UI);
-        uiObject.name = uiName;
-        UIBase uibase = uiObject.GetOrAddComponent<T>();
-        uibase.param = param;
-        uibase.Init();
-        uiDic.Add(uiName, uibase);
+        //string uiName = typeof(T).ToString();
+        //GameObject uiObject = ResourceManager.Instance.GetResourceInstantiate(uiName, transform, ResouceType.UI);
+        //uiObject.name = uiName;
+        //UIBase uibase = uiObject.GetOrAddComponent<T>();
+        //uibase.param = param;
+        //uibase.Init();
+        //uiDic.Add(uiName, uibase);
 
-        return uibase;
+        //return uibase;
+        return null;
     }
     /// <summary>
     /// 根据资源名获取UI
@@ -126,7 +142,6 @@ public class UIManager : UnitySingleton<UIManager>
     public void BackUI(LayerMenue layer)
     {
         UIBase ui = openUIDic.TryGet(layer);
-        var ss = ui;
         if (ui == null) return;
 
         if (ui.BackUi == null)
@@ -191,7 +206,7 @@ public class UIManager : UnitySingleton<UIManager>
         if (uiDic.ContainsKey(ui.name))
             uiDic.Remove(ui.name);
        
-        Destroy(ui.gameObject);
+         Destroy(ui.gameObject, 0.1f);
     }
     /// <summary>
     /// 发送UI事件

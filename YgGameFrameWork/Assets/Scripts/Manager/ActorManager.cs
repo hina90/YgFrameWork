@@ -20,24 +20,15 @@ public class ActorManager : UnitySingleton<ActorManager>
     /// <returns></returns>
     public BaseActor CreateActor<T>(CustomerConfigData configData, float scale = 1) where T:BaseActor
     {
-        //GameObject base_go = new GameObject(name);
-        //base_go.transform.SetParent(Instance.transform, false);
-        //base_go.transform.localScale = new Vector3(scale, scale, scale);
-        //base_go.transform.position = Vector3.zero;
-        if (!actorPool.ContainsKey(configData.icon))
-            actorPool.Add(configData.icon, new List<GameObject>());
+        //if (!actorPool.ContainsKey(configData.icon))
+        //    actorPool.Add(configData.icon, new List<GameObject>());
 
-        //actorPool[name].Add(base_go);
+        //GameObject actorObject = ResourceManager.Instance.GetResourceInstantiate(configData.icon, Instance.transform.transform, ResouceType.Actor);
+        //actorPool[configData.icon].Add(actorObject);
+        //BaseActor base_class = actorObject.GetOrAddComponent<T>();
 
-        GameObject actorObject = ResourceManager.Instance.GetResourceInstantiate(configData.icon, Instance.transform.transform, ResouceType.Actor);
-        actorPool[configData.icon].Add(actorObject);
-        BaseActor base_class = actorObject.GetOrAddComponent<T>();
-        //base_class.ConfigData = configData;
-
-        //base_class.Init();
-        //base_class.CustomerData = configData;
-
-        return base_class;
+        //return base_class;
+        return null;
     }
     /// <summary>
     /// 销毁角色

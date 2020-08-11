@@ -1,8 +1,13 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.U2D;
+
+using UObject = UnityEngine.Object;
 
 
 //资源类型
@@ -31,103 +36,186 @@ public enum ResouceType
 /// <summary>
 /// 资源管理器
 /// </summary>
-public class ResourceManager : UnitySingleton<ResourceManager>
+public class ResourceManager : BaseManager
 {
-    /// <summary>
-	/// 容器类
-	/// </summary>
-	private class PrefabContainer
+    SimAssetManager mSimMgr = null;
+
+    public override void Initialize()
     {
-        public Dictionary<string, GameObject> details = new Dictionary<string, GameObject>();
+        mSimMgr = new SimAssetManager(this);
     }
-    //预设资源缓存数组
-    private PrefabContainer[] prefabPool = new PrefabContainer[(int)ResouceType.Count];
-    //图集缓存
-    Dictionary<string, SpriteAtlas> mDicSpriteAtlas = new Dictionary<string, SpriteAtlas>();
+
+    public void InitMainfest(string mainfestName, Action initOk)
+    {
+        mSimMgr.Initialize(initOk);
+    }
+
+    public override void OnUpdate(float deltaTime)
+    {
+        mSimMgr.Update(deltaTime);
+    }
+
+    public override void OnDispose()
+    {
+
+    }
 
     /// <summary>
-    /// 初始化
+    /// 加载单个资源
     /// </summary>
-    public ResourceManager()
+    /// <typeparam name="T"></typeparam>
+    /// <param name="path"></param>
+    /// <returns></returns>
+    public T LoadResAsset<T>(string path) where T : UObject
     {
-        for (int i = 0; i < (int)ResouceType.Count; i++)
+        UObject o = Resources.Load<T>(path);
+        if (o == null)
         {
-            prefabPool[i] = new PrefabContainer();
+            return null;
         }
+        return o as T;
     }
     /// <summary>
-    /// 添加资源
+    /// 加载文件夹下的批量资源
     /// </summary>
-    /// <param name="prefabName"></param>
-    /// <param name="type"></param>
-    public GameObject AddResource(string prefabName, ResouceType type)
-    {
-        string prefabPath = "Prefab/" + type.ToString() + "/" + prefabName;
-        GameObject prefab = Resources.Load<GameObject>(prefabPath);
-        if (prefab) prefabPool[(int)type].details.Add(prefabName, prefab);
-
-        return prefab;
-    }
-    /// <summary>
-    /// 获取预设资源 
-    /// </summary>
-    /// <param name="prefabName"></param>
-    /// <param name="type"></param>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="path"></param>
     /// <returns></returns>
-    public GameObject GetResource(string prefabName, ResouceType type)
+    public T[] LoadResAssets<T>(string path) where T : UObject
     {
-        GameObject prefab = prefabPool[(int)type].details.TryGet(prefabName);
-        if (prefab == null)
-            prefab = AddResource(prefabName, type);
-
-        return prefab;
+        return Resources.LoadAll<T>(path);
     }
     /// <summary>
-    /// 获取创建资源
+    /// 加载二进制资源或者字符串资源
     /// </summary>
-    /// <param name="prefabName"></param>
-    /// <param name="parent"></param>
-    /// <param name="type"></param>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="path"></param>
     /// <returns></returns>
-    public GameObject GetResourceInstantiate(string prefabName, Transform parent, ResouceType type)
+    public T LoadLocalAsset<T>(string path) where T : class
     {
-        GameObject prefab = GetResource(prefabName, type);
-        GameObject prefabObj = Instantiate(prefab, parent);
-        prefabObj.transform.eulerAngles = Vector3.zero;
-        prefabObj.transform.localPosition = Vector3.zero;
-
-        return prefabObj;
-    }
-    public GameObject GetResourceInit(string prefabName, Transform parent, ResouceType type)
-    {
-        GameObject prefab = GetResource(prefabName, type);
-        GameObject prefabObj = Instantiate(prefab, parent);
-
-        return prefabObj;
+        var filePath = FileUtils.DataPath + path;
+        if (File.Exists(filePath))
+        {
+            var type = typeof(T);
+            if (type == typeof(byte[]))
+            {
+                return File.ReadAllBytes(filePath) as T;
+            }
+            else if (type == typeof(string))
+            {
+                return File.ReadAllText(filePath) as T;
+            }
+        }
+        return null as T;
     }
     /// <summary>
-    /// 获取图片资源
+    /// 加载资源
     /// </summary>
-    /// <param name="spriteName"></param>
-    /// <returns></returns>
-    public Sprite GetSpriteResource(string spriteName, ResouceType type)
+    /// <typeparam name="T"></typeparam>
+    /// <param name="abName"></param>
+    /// <param name="assetNames"></param>
+    /// <param name="func"></param>
+    public void LoadAssetAsync<T>(string abName, string[] assetNames, Action<UObject[]> func)
     {
-        StringBuilder prefabPath = new StringBuilder();
-        //#if UNITY_IOS || UNITY_ANDROID
-        //        prefabPath.Append("Atlas/").Append(type.ToString());
-        //        SpriteAtlas nowAtlas;
-        //        if (mDicSpriteAtlas.ContainsKey(prefabPath.ToString()))
-        //            nowAtlas = mDicSpriteAtlas[type.ToString()];
-        //        else
-        //        {
-        //            nowAtlas = Resources.Load<SpriteAtlas>(prefabPath.ToString());
-        //            mDicSpriteAtlas[type.ToString()] = nowAtlas;
-        //        }
-        //        Sprite sprite = nowAtlas.GetSprite(spriteName);
-        //#else
-        prefabPath.Append("Sprite/").Append(type.ToString()).Append("/").Append(spriteName);
-        Sprite sprite = Resources.Load<Sprite>(prefabPath.ToString());
-        //#endif
-        return sprite;
+        var assetType = typeof(T);
+        mSimMgr.LoadAsset(abName, assetNames, assetType, func);
     }
+
+    //   /// <summary>
+    ///// 容器类
+    ///// </summary>
+    //private class PrefabContainer
+    //   {
+    //       public Dictionary<string, GameObject> details = new Dictionary<string, GameObject>();
+    //   }
+    //   //预设资源缓存数组
+    //   private PrefabContainer[] prefabPool = new PrefabContainer[(int)ResouceType.Count];
+    //   //图集缓存
+    //   Dictionary<string, SpriteAtlas> mDicSpriteAtlas = new Dictionary<string, SpriteAtlas>();
+
+    //   /// <summary>
+    //   /// 初始化
+    //   /// </summary>
+    //   public ResourceManager()
+    //   {
+    //       for (int i = 0; i < (int)ResouceType.Count; i++)
+    //       {
+    //           prefabPool[i] = new PrefabContainer();
+    //       }
+    //   }
+    //   /// <summary>
+    //   /// 添加资源
+    //   /// </summary>
+    //   /// <param name="prefabName"></param>
+    //   /// <param name="type"></param>
+    //   public GameObject AddResource(string prefabName, ResouceType type)
+    //   {
+    //       string prefabPath = "Prefab/" + type.ToString() + "/" + prefabName;
+    //       GameObject prefab = Resources.Load<GameObject>(prefabPath);
+    //       if (prefab) prefabPool[(int)type].details.Add(prefabName, prefab);
+
+    //       return prefab;
+    //   }
+    //   /// <summary>
+    //   /// 获取预设资源 
+    //   /// </summary>
+    //   /// <param name="prefabName"></param>
+    //   /// <param name="type"></param>
+    //   /// <returns></returns>
+    //   public GameObject GetResource(string prefabName, ResouceType type)
+    //   {
+    //       GameObject prefab = prefabPool[(int)type].details.TryGet(prefabName);
+    //       if (prefab == null)
+    //           prefab = AddResource(prefabName, type);
+
+    //       return prefab;
+    //   }
+    //   /// <summary>
+    //   /// 获取创建资源
+    //   /// </summary>
+    //   /// <param name="prefabName"></param>
+    //   /// <param name="parent"></param>
+    //   /// <param name="type"></param>
+    //   /// <returns></returns>
+    //   public GameObject GetResourceInstantiate(string prefabName, Transform parent, ResouceType type)
+    //   {
+    //       GameObject prefab = GetResource(prefabName, type);
+    //       GameObject prefabObj = Instantiate(prefab, parent);
+    //       prefabObj.transform.eulerAngles = Vector3.zero;
+    //       prefabObj.transform.localPosition = Vector3.zero;
+
+    //       return prefabObj;
+    //   }
+    //   public GameObject GetResourceInit(string prefabName, Transform parent, ResouceType type)
+    //   {
+    //       GameObject prefab = GetResource(prefabName, type);
+    //       GameObject prefabObj = Instantiate(prefab, parent);
+
+    //       return prefabObj;
+    //   }
+    //   /// <summary>
+    //   /// 获取图片资源
+    //   /// </summary>
+    //   /// <param name="spriteName"></param>
+    //   /// <returns></returns>
+    //   public Sprite GetSpriteResource(string spriteName, ResouceType type)
+    //   {
+    //       StringBuilder prefabPath = new StringBuilder();
+    //       //#if UNITY_IOS || UNITY_ANDROID
+    //       //        prefabPath.Append("Atlas/").Append(type.ToString());
+    //       //        SpriteAtlas nowAtlas;
+    //       //        if (mDicSpriteAtlas.ContainsKey(prefabPath.ToString()))
+    //       //            nowAtlas = mDicSpriteAtlas[type.ToString()];
+    //       //        else
+    //       //        {
+    //       //            nowAtlas = Resources.Load<SpriteAtlas>(prefabPath.ToString());
+    //       //            mDicSpriteAtlas[type.ToString()] = nowAtlas;
+    //       //        }
+    //       //        Sprite sprite = nowAtlas.GetSprite(spriteName);
+    //       //#else
+    //       prefabPath.Append("Sprite/").Append(type.ToString()).Append("/").Append(spriteName);
+    //       Sprite sprite = Resources.Load<Sprite>(prefabPath.ToString());
+    //       //#endif
+    //       return sprite;
+    //   }
 }

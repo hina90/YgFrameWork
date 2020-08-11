@@ -16,8 +16,23 @@ public class GameManager : BaseManager
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
         Application.runInBackground = true;
 
-
+        var settings = Utils.LoadGameSettings();
+        if(settings != null)
+        {
+            AppConst.LogMode = settings.logMode;
+            AppConst.DebugMode = settings.debugMode;
+            AppConst.GameFrameRate = settings.GameFrameRate;
+        }
+        Utils.SetDebugState(AppConst.LogMode);
         Application.targetFrameRate = AppConst.GameFrameRate;
+        //创建loading UI 
+
+
+    }
+
+    public void ResInitialize()
+    {
+
     }
 
     public override void OnUpdate(float deltaTime)

@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Text;
 
-public class FileUtils : Singleton<FileUtils>
+public static class FileUtils
 {
     /// <summary>
     /// 获取可写目录路径
     /// </summary>
     /// <param name="path"></param>
     /// <returns></returns>
-    public string GetWritePath(string path)
+    public static string GetWritePath(string path)
     {
         StringBuilder sb = new StringBuilder();
         if (Application.platform == RuntimePlatform.WindowsEditor)
@@ -30,11 +30,29 @@ public class FileUtils : Singleton<FileUtils>
     /// </summary>
     /// <param name="path"></param>
     /// <returns></returns>
-    public string GetResPath(string path)
+    public static string GetResPath(string path)
     {
         StringBuilder sb = new StringBuilder();
         sb.Append(Application.persistentDataPath).Append("/Resources/").Append(path);
 
         return sb.ToString();
+    }
+    /// <summary>
+    /// 取得数据存放目录
+    /// </summary>
+    public static string DataPath
+    {
+        get
+        {
+            if (Application.isMobilePlatform)
+            {
+                return Application.persistentDataPath + "/" + AppConst.AppName + "/";
+            }
+            if (AppConst.DebugMode)
+            {
+                return Application.dataPath + "/res/";
+            }
+            return "c:/" + AppConst.AppName + "/";
+        }
     }
 }

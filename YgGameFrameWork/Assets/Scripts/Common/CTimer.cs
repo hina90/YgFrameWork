@@ -28,7 +28,7 @@ public class Ticker
     public uint remain;
     public uint frameCount;
     public object param;
-    public Action<uint, object> action;
+    public Action<object> action;
 }
 
 /// <summary>
@@ -140,7 +140,102 @@ public class CTimer : BaseObject
             expireTimers.Clear();
         }
     }
+    /// <summary>
+    /// 添加帧计时事件
+    /// </summary>
+    /// <param name="kv"></param>
+    /// <param name="param"></param>
+    /// <param name="action"></param>
+    public void AddFrameActions(Dictionary<uint, uint> kv, object param, Action<uint, object> action)
+    {
+        foreach(var de in kv)
+        {
+            var ticker = new TimeTicker();
+            ticker.typeId = de.Key;
+            ticker.frameCount = de.Value;
+            ticker.refCount = 0;
+            ticker.action = action;
+            ticker.param = param;
+            timeTickers.Add(ticker);
+        }
+    }
+    /// <summary>
+    /// 帧事件 计时
+    /// </summary>
+    /// <param name="deltalTime"></param>
+    private void OnTimeTicker(float deltalTime)
+    {
+        if (timeTickers.Count == 0)
+            return;
 
+        foreach(TimeTicker ticker in timeTickers)
+        {
+            if(ticker.refCount == ticker.frameCount)
+            {
+                expireTickers.Add(ticker);
+                ticker.action(ticker.typeId, ticker.param);
+            }
+            else
+            {
+                ticker.refCount++;
+            }
+        }
+        foreach(var timer in expireTickers)
+        {
+            timeTickers.Remove(timer);
+        }
+        expireTickers.Clear();
+    }
+
+    public static uint TimeToFrame(uint ms)
+    {
+        return ms / 1000 * 33;
+    }
+    /// <summary>
+    /// 创建Ticker
+    /// </summary>
+    /// <param name="ms"></param>
+    /// <param name="param"></param>
+    /// <param name="action"></param>
+    /// <returns></returns>
+    public Ticker CreateTicker(uint ms, object param, Action<object> action)
+    {
+        var ticker = new Ticker();
+        ticker.param = param;
+        ticker.action = action;
+        ticker.frameCount = ticker.remain = TimeToFrame(ms);
+        tickers.Add(ticker);
+
+        return ticker;
+    }
+    /// <summary>
+    /// ticker计时
+    /// </summary>
+    void OnTicker()
+    {
+        if(tickers.Count > 0)
+        {
+            delTickers.Clear(); 
+            foreach(Ticker ticker in tickers)
+            {
+                if(ticker.frameCount > 0)
+                {
+                    if(--ticker.remain == 0)
+                    {
+                        delTickers.Add(ticker);
+                    }
+                }
+                if(ticker.action != null)
+                {
+                    ticker.action(ticker.param);
+                }
+            }
+            foreach(var t in delTickers)
+            {
+                tickers.Remove(t);
+            }
+        }
+    }
 
 
     public override void Initialize()

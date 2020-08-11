@@ -29,8 +29,8 @@ public class UIBase : MonoBehaviour
         {
             uiCamera = value;
             Canvas canvas = GetComponent<Canvas>();
-            if (uiCamera) UIManager.Instance.AddUICamera(canvas);
-            else UIManager.Instance.RemoveUICamera(canvas);
+            //if (uiCamera) UIManager.Instance.AddUICamera(canvas);
+            //else UIManager.Instance.RemoveUICamera(canvas);
         }
     }
     /// <summary>
@@ -161,13 +161,13 @@ public class UIBase : MonoBehaviour
     /// </summary>
     public void BackToUI()
     {
-        UIManager.Instance.BackUI(Layer);
+        //UIManager.Instance.BackUI(Layer);
     }
     /// <summary>
     /// 释放
     /// </summary>
     public virtual void Release()
     {
-        UIManager.Instance.Release(this);
+        //UIManager.Instance.Release(this);
     }
 }

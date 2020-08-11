@@ -26,8 +26,8 @@ public class PlayerData
                 OwnItem[(int)ePlayerItem.Gold] = Int64.MaxValue;
             else
                 OwnItem[(int)ePlayerItem.Gold] = value;
-            UIManager.Instance.SendUIEvent(GameEvent.UPDATE_MONEY_BAR);
-            UIManager.Instance.SendUIEvent(GameEvent.UPDATE_CULTIVATE_STATUS);
+            //UIManager.Instance.SendUIEvent(GameEvent.UPDATE_MONEY_BAR);
+            //UIManager.Instance.SendUIEvent(GameEvent.UPDATE_CULTIVATE_STATUS);
             //GameDataManager.Instance.SaveGameData();
         }
         get
@@ -46,7 +46,7 @@ public class PlayerData
                 OwnItem[(int)ePlayerItem.Diamond] = Int64.MaxValue;
             else
                 OwnItem[(int)ePlayerItem.Diamond] = value;
-            UIManager.Instance.SendUIEvent(GameEvent.UPDATE_MONEY_BAR);
+            //UIManager.Instance.SendUIEvent(GameEvent.UPDATE_MONEY_BAR);
             //GameDataManager.Instance.SaveGameData();
         }
         get
@@ -65,7 +65,7 @@ public class PlayerData
                 OwnItem[(int)ePlayerItem.DigCostItem] = Int64.MaxValue;
             else
                 OwnItem[(int)ePlayerItem.DigCostItem] = value;
-            UIManager.Instance.SendUIEvent(GameEvent.UPDATE_MONEY_BAR);
+            //UIManager.Instance.SendUIEvent(GameEvent.UPDATE_MONEY_BAR);
             //GameDataManager.Instance.SaveGameData();
         }
         get

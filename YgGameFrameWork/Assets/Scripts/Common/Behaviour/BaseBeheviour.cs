@@ -66,8 +66,10 @@ public abstract class BaseBeheviour
     /// </summary>
     private static void InitManagers()
     {
+        AddManager<UIManager>();
         AddManager<GameManager>();
         AddManager<CSceneManager>();
+        AddManager<ResourceManager>();
     }
     /// <summary>
     /// 初始化扩展管理器
@@ -75,16 +77,17 @@ public abstract class BaseBeheviour
     private static void InitExtManager()
     {
         ExtManagers.Add("ConfigManager", configMgr);
+        ExtManagers.Add("TimerManager", timerMgr);
+        ExtManagers.Add("TableManager", tableMgr);
     }
     /// <summary>
     /// 初始化组件
+    /// 如摄像机跟随等..
     /// </summary>
     private static void InitComponent()
     {
 
     }
-   
-
     
     /// <summary>
     /// 添加管理器
@@ -136,17 +139,18 @@ public abstract class BaseBeheviour
         return ExtManagers[componentName];
     }
 
+    //===============================游戏管理器==============================
 
-    private static ConfigManager _configMgr;
-    public static ConfigManager configMgr
+    private static GameManager _gameMgr;
+    public static GameManager gameMgr
     {
         get
         {
-            if(_configMgr == null)
+            if(_gameMgr == null)
             {
-                _configMgr = ConfigManager.Create();
+                _gameMgr = GetManager<GameManager>();
             }
-            return _configMgr;
+            return _gameMgr;
         }
     }
 
@@ -160,6 +164,68 @@ public abstract class BaseBeheviour
                 _sceneMgr = GetManager<CSceneManager>();
             }
             return _sceneMgr;
+        }
+    }
+    private static UIManager _uiMgr;
+    public static UIManager uiMgr
+    {
+        get
+        {
+            if (_uiMgr == null)
+            {
+                _uiMgr = GetManager<UIManager>();
+            }
+            return _uiMgr;
+        }
+    }
+    private static ResourceManager _resMgr;
+    public static ResourceManager resMgr
+    {
+        get
+        {
+            if (_resMgr == null)
+            {
+                _resMgr = GetManager<ResourceManager>();
+            }
+            return _resMgr;
+        }
+    }
+    //==========================扩展管理器=============================
+    private static ConfigManager _configMgr;
+    public static ConfigManager configMgr
+    {
+        get
+        {
+            if (_configMgr == null)
+            {
+                _configMgr = ConfigManager.Create();
+            }
+            return _configMgr;
+        }
+    }
+    private static CTimer _timerMgr;
+    public static CTimer timerMgr
+    {
+        get
+        {
+            if (_timerMgr == null)
+            {
+                _timerMgr = CTimer.Create();
+            }
+            return _timerMgr;
+        }
+    }
+
+    private static TableManager _tableMgr;
+    public static TableManager tableMgr
+    {
+        get
+        {
+            if(_tableMgr == null)
+            {
+                _tableMgr = TableManager.Create();
+            }
+            return _tableMgr;
         }
     }
 

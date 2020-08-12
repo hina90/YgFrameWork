@@ -145,7 +145,7 @@ public class ConfigManager : BaseObject
 	/// <returns></returns>
 	public void SaveFile(string fileName, string text)
     {
-        FileStream fs = new FileStream(FileUtils.Instance.GetWritePath(fileName), FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.ReadWrite);
+        FileStream fs = new FileStream(FileUtils.GetWritePath(fileName), FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.ReadWrite);
         fs.SetLength(0);
         byte[] d = System.Text.Encoding.UTF8.GetBytes(text);
         fs.Write(d, 0, d.Length);
@@ -161,7 +161,7 @@ public class ConfigManager : BaseObject
     /// <returns></returns>
     public string LoadFile(string fileName)
     {
-        FileStream fs = new FileStream(FileUtils.Instance.GetWritePath(fileName), FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.ReadWrite);
+        FileStream fs = new FileStream(FileUtils.GetWritePath(fileName), FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.ReadWrite);
         StreamReader sr = new StreamReader(fs, Encoding.UTF8);
         string ret = sr.ReadToEnd();
         fs.Close();
@@ -178,7 +178,7 @@ public class ConfigManager : BaseObject
         try
         {
             BinaryFormatter binary = new BinaryFormatter();
-            using (FileStream fs = File.OpenWrite(FileUtils.Instance.GetWritePath(fileName)))
+            using (FileStream fs = File.OpenWrite(FileUtils.GetWritePath(fileName)))
             {
                 binary.Serialize(fs, data);
             }
@@ -198,7 +198,7 @@ public class ConfigManager : BaseObject
         try
         {
             BinaryFormatter binary = new BinaryFormatter();
-            string filePath = FileUtils.Instance.GetWritePath(fileName);
+            string filePath = FileUtils.GetWritePath(fileName);
             if (!File.Exists(filePath)) return default;
             using (FileStream fs = File.Open(filePath, FileMode.Open))
             {
@@ -217,7 +217,7 @@ public class ConfigManager : BaseObject
     /// <param name="fileName"></param>
     public void Clear(string fileName)
     {
-        FileStream fs = new FileStream(FileUtils.Instance.GetWritePath(fileName), FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.ReadWrite);
+        FileStream fs = new FileStream(FileUtils.GetWritePath(fileName), FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.ReadWrite);
         StreamReader sr = new StreamReader(fs, Encoding.UTF8);
         byte[] d = new byte[0];
         fs.SetLength(0);
@@ -231,8 +231,6 @@ public class ConfigManager : BaseObject
         {
             DirectoryInfo direction = new DirectoryInfo(fullPath);
             FileInfo[] files = direction.GetFiles("*", SearchOption.AllDirectories);
-
-            Debug.Log(files.Length);
 
             for (int i = 0; i < files.Length; i++)
             {

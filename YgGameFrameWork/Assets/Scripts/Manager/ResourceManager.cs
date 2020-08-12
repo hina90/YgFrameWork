@@ -10,29 +10,6 @@ using UnityEngine.U2D;
 using UObject = UnityEngine.Object;
 
 
-//资源类型
-public enum ResouceType
-{
-    UI,
-    Actor,
-    Effect,
-    Audio,
-    Scene,
-    Battle,
-    PrefabItem,
-    Icon,
-    Face,
-    Game,
-    BaseWidget,
-    Exhibits,
-    ExhibitsUI,
-    Decoration,
-    DigSpineUI,
-    Cultivate,
-    Font,
-    Count,
-}
-
 /// <summary>
 /// 资源管理器
 /// </summary>

@@ -27,12 +27,38 @@ public class GameManager : BaseManager
         Application.targetFrameRate = AppConst.GameFrameRate;
         //创建loading UI 
 
-
     }
 
     public void ResInitialize()
     {
+        if(AppConst.DebugMode)
+        {
 
+        }
+    }
+
+    private void OnResInitOK()
+    {
+        resMgr.Initialize();
+        resMgr.InitMainfest(AppConst.ResIndexFile, delegate()
+        {
+            this.OnInitialzeOK();
+        });
+    }
+    /// <summary>
+    /// 初始化完成
+    /// </summary>
+    void OnInitialzeOK()
+    {
+        configMgr.Initialize();
+        tableMgr.Initialize();
+        soundMgr.Initialize();
+
+        timerMgr.Initialize();
+        moduleMgr.Initialize();
+        uiMgr.Initialize();
+        sceneMgr.Initialize();
+        actorMgr.Initialize();
     }
 
     public override void OnUpdate(float deltaTime)

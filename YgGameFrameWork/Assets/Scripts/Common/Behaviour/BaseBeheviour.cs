@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public abstract class BaseBeheviour
+/// <summary>
+/// 基础管理器
+/// </summary>
+public abstract class BaseBeheviour 
 {
     static Dictionary<string, BaseManager> Managers = new Dictionary<string, BaseManager>();
     static Dictionary<string, BaseObject> ExtManagers = new Dictionary<string, BaseObject>();
@@ -68,8 +71,11 @@ public abstract class BaseBeheviour
     {
         AddManager<UIManager>();
         AddManager<GameManager>();
+        AddManager<SoundManager>();
+        AddManager<ActorManager>();
         AddManager<CSceneManager>();
         AddManager<ResourceManager>();
+        AddManager<GameModuleManager>();
     }
     /// <summary>
     /// 初始化扩展管理器
@@ -139,7 +145,7 @@ public abstract class BaseBeheviour
         return ExtManagers[componentName];
     }
 
-    //===============================游戏管理器==============================
+    //===============================获取游戏管理器==============================
 
     private static GameManager _gameMgr;
     public static GameManager gameMgr
@@ -178,6 +184,18 @@ public abstract class BaseBeheviour
             return _uiMgr;
         }
     }
+    private static SoundManager _soundMgr;
+    public static SoundManager soundMgr
+    {
+        get
+        {
+            if(_soundMgr != null)
+            {
+                _soundMgr = GetManager<SoundManager>();
+            }
+            return _soundMgr;
+        }
+    }
     private static ResourceManager _resMgr;
     public static ResourceManager resMgr
     {
@@ -188,6 +206,30 @@ public abstract class BaseBeheviour
                 _resMgr = GetManager<ResourceManager>();
             }
             return _resMgr;
+        }
+    }
+    private static GameModuleManager _moduleMgr;
+    public static GameModuleManager moduleMgr
+    {
+        get
+        {
+            if(_moduleMgr == null)
+            {
+                _moduleMgr = GetManager<GameModuleManager>();
+            }
+            return _moduleMgr;
+        }
+    }
+    private static ActorManager _actorMgr;
+    public static ActorManager actorMgr
+    {
+        get
+        {
+            if(_actorMgr == null)
+            {
+                _actorMgr = GetManager<ActorManager>();
+            }
+            return _actorMgr;
         }
     }
     //==========================扩展管理器=============================

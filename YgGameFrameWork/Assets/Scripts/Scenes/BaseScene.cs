@@ -54,11 +54,11 @@ public class BaseScene:BaseBeheviour
             delegate()
             {
                 Enter();
-                uiMgr.SendUIEvent(GameEvent.SCENE_LOAD_COMPLETE);
+                //uiMgr.SendUIEvent(GameEvent.SCENE_LOAD_COMPLETE);
             },
             delegate(float value)
             {
-                uiMgr.SendUIEvent(GameEvent.SCENE_LOAD_PROGRESS, value);
+                //uiMgr.SendUIEvent(GameEvent.SCENE_LOAD_PROGRESS, value);
             });
     }
     /// <summary>

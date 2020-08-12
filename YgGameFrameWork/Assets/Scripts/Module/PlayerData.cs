@@ -7,78 +7,13 @@ using UnityEngine;
 [System.Serializable]
 public class PlayerData
 {
-    public Int64[] OwnItem = new Int64[(int)ePlayerItem.Max];
     public PlayerData()
     {
-        for(int i = 0;i < OwnItem.Length; i++)
-        {
-            OwnItem[i] = 0;
-        }
+       
     }
-    /// <summary>
-    /// 金币
-    /// </summary>
-    public Int64 Gold
-    {
-        set
-        {
-            if(value == Int64.MaxValue || value < 0)
-                OwnItem[(int)ePlayerItem.Gold] = Int64.MaxValue;
-            else
-                OwnItem[(int)ePlayerItem.Gold] = value;
-            //UIManager.Instance.SendUIEvent(GameEvent.UPDATE_MONEY_BAR);
-            //UIManager.Instance.SendUIEvent(GameEvent.UPDATE_CULTIVATE_STATUS);
-            //GameDataManager.Instance.SaveGameData();
-        }
-        get
-        {
-            return OwnItem[(int)ePlayerItem.Gold];
-        }
-    }
-    /// <summary>
-    /// 水晶
-    /// </summary>
-    public Int64 Diamond
-    {
-        set
-        {
-            if (value == Int64.MaxValue || value < 0)
-                OwnItem[(int)ePlayerItem.Diamond] = Int64.MaxValue;
-            else
-                OwnItem[(int)ePlayerItem.Diamond] = value;
-            //UIManager.Instance.SendUIEvent(GameEvent.UPDATE_MONEY_BAR);
-            //GameDataManager.Instance.SaveGameData();
-        }
-        get
-        {
-            return OwnItem[(int)ePlayerItem.Diamond];
-        }
-    }
-    /// <summary>
-    /// 锄头
-    /// </summary>
-    public Int64 DigCostItem
-    {
-        set
-        {
-            if (value == Int64.MaxValue || value < 0)
-                OwnItem[(int)ePlayerItem.DigCostItem] = Int64.MaxValue;
-            else
-                OwnItem[(int)ePlayerItem.DigCostItem] = value;
-            //UIManager.Instance.SendUIEvent(GameEvent.UPDATE_MONEY_BAR);
-            //GameDataManager.Instance.SaveGameData();
-        }
-        get
-        {
-            return OwnItem[(int)ePlayerItem.DigCostItem];
-        }
-    }
-    public bool IsItemEnough(ePlayerItem inType,int count)
-    {
-        if (OwnItem[(int)inType] >= count)
-            return true;
-        return false;
-    }
+
+
+    
 
     #region ExhibitFragment
     /// <summary>
@@ -267,7 +202,6 @@ public class PlayerData
     /// 新添加 图鉴ID,星级
     /// </summary>
     public Dictionary<int, int> handBookNewDict = new Dictionary<int, int>();
-    public Dictionary<eTeachType, int> teachDict;
     /// <summary>
     /// 离线时间 实际执行中是使用最后一次存档时间代替
     /// </summary>

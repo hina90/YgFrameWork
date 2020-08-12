@@ -16,7 +16,7 @@ public class UI_Loading : UIBase
     /// </summary>
     public override void Init()
     {
-        Layer = LayerMenue.LOADING;
+       
     }
     /// <summary>
     /// 进入LoadingUI

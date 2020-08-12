@@ -14,7 +14,6 @@ public class UI_MainGame : UIBase
     /// </summary>
     public override void Init()
     {
-        Layer = LayerMenue.UI;
     }
 
     /// <summary>
@@ -28,10 +27,6 @@ public class UI_MainGame : UIBase
     {
         eventDic = base.CtorEvent();
 
-        eventDic[GameEvent.CULTIVATE_CAN_UPGRADE] = delegate (object[] param)
-        {
-
-        };
 
         return eventDic;
     }

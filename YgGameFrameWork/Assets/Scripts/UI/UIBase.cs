@@ -5,12 +5,12 @@ using UnityEngine;
 /// <summary>
 /// UI基础类
 /// </summary>
-public class UIBase : MonoBehaviour
+public class UIBase : GameBehaviour
 {
     public object[] param;                          //参数
    
     public UIBase BackUi { get; set; }             //上一层UI
-    public LayerMenue Layer { get; set; }          //UI层级
+    //public LayerMenue Layer { get; set; }          //UI层级
     //UI上的监听事件列表
     protected Dictionary<GameEvent, Callback<object[]>> eventDic = null;
 

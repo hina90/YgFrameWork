@@ -6,10 +6,30 @@ using Tool.Database;
 /// <summary>
 /// 角色管理器
 /// </summary>
-public class ActorManager : UnitySingleton<ActorManager>
+public class ActorManager : BaseManager
 {
     private const int POOL_LIMITED = 0;                                                                             //角色缓存池大小
     private Dictionary<string, List<GameObject>> actorPool = new Dictionary<string, List<GameObject>>();            //缓存池
+
+
+
+    public override void Initialize()
+    {
+        
+    }
+
+    public override void OnUpdate(float deltaTime)
+    {
+        
+    }
+
+    public override void OnDispose()
+    {
+        
+    }
+
+
+
     /// <summary>
     /// 创建普通NPC
     /// </summary>
@@ -18,6 +38,7 @@ public class ActorManager : UnitySingleton<ActorManager>
     /// <param name="name">角色资源名字</param>
     /// <param name="scale">缩放大小</param>
     /// <returns></returns>
+    /// 
     public BaseActor CreateActor<T>(CustomerConfigData configData, float scale = 1) where T:BaseActor
     {
         //if (!actorPool.ContainsKey(configData.icon))
@@ -40,39 +61,23 @@ public class ActorManager : UnitySingleton<ActorManager>
         if (go == null)
             return false;
 
-        //if (!actorPool.ContainsKey(go.name))
-        //    actorPool.Add(go.name, new List<GameObject>());
-
-        //go.SetActive(false);
-        //List<GameObject> goList = actorPool[go.name];
-        //for (int i = 0; i < goList.Count; i++)
-        //{
-        //    if (goList[i] == go)
-        //        return false;
-        //}
-
-        //if (go.transform.childCount == 0)
-        //{    
-        //    DestroyImmediate(go);
-        //    return false;
-        //}
         BaseActor actor = go.GetComponent<BaseActor>();
         if (actor != null)
         {
             actor.Release();
-            DestroyImmediate(actor);
+            //DestroyImmediate(actor);
         }
 
         string key = go.name.Replace("(Clone)", "");
         if(!actorPool.ContainsKey(key))
         {
-            Destroy(go);
+            //Destroy(go);
             return false;
         }
         if(actorPool[key].Count > POOL_LIMITED)
         {
             actorPool[key].Remove(go);
-            Destroy(go);
+            //Destroy(go);
             return true;
         }
         return true;
@@ -86,7 +91,7 @@ public class ActorManager : UnitySingleton<ActorManager>
         {
             for (int i = item.Value.Count - 1; i >= 0; i--)
             {
-                Destroy(item.Value[i]);
+                //Destroy(item.Value[i]);
                 item.Value.RemoveAt(i);
             }
         }

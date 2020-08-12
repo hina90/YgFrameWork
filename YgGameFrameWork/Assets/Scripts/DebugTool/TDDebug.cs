@@ -142,7 +142,7 @@ public class TDDebug : UnitySingleton<TDDebug>
             if (UnityEngine.Application.platform == UnityEngine.RuntimePlatform.Android ||
                 UnityEngine.Application.platform == UnityEngine.RuntimePlatform.IPhonePlayer)
             {
-                path = FileUtils.Instance.GetWritePath(path);
+                path = FileUtils.GetWritePath(path);
             }
             fs = new FileStream(path, FileMode.OpenOrCreate, FileAccess.ReadWrite);
             data = Encoding.UTF8.GetBytes("===================================start game=============================\n");

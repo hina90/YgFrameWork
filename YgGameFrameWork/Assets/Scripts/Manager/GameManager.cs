@@ -26,14 +26,14 @@ public class GameManager : BaseManager
         Utils.SetDebugState(AppConst.LogMode);
         Application.targetFrameRate = AppConst.GameFrameRate;
         //创建loading UI 
-
+        ResInitialize();
     }
 
     public void ResInitialize()
     {
         if(AppConst.DebugMode)
         {
-
+            OnResInitOK();
         }
     }
 
@@ -59,6 +59,10 @@ public class GameManager : BaseManager
         uiMgr.Initialize();
         sceneMgr.Initialize();
         actorMgr.Initialize();
+
+        Debug.Log("------------初始化完成-------------");
+
+        panelMgr.OpenPanel<UI_MainGame>(UILayer.Fixed);
     }
 
     public override void OnUpdate(float deltaTime)

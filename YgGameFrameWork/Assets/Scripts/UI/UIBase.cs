@@ -36,16 +36,18 @@ public class UIBase : GameBehaviour
     /// <summary>
     /// UI初始化事件（初始化的数据处理放此处，如：配置档数据）
     /// </summary>
-    public virtual void Init()
+    public virtual void Initialize()
     {
 
     }
+
     /// <summary>
     /// 打开UI
     /// </summary>
-    public void Open()
+    public void Open(object[] param = null)
     {
         //获取事件列表
+        this.param = param;
         eventDic = CtorEvent();
         Enter();
         Show();
@@ -133,13 +135,6 @@ public class UIBase : GameBehaviour
         if(eventDic == null)
             eventDic = new Dictionary<GameEvent, Callback<object[]>>();
         return eventDic;
-    }
-    /// <summary>
-    /// UI上的帧事件
-    /// </summary>
-    public virtual void MainUpdate()
-    {
-        
     }
     /// <summary>
     /// 隐藏

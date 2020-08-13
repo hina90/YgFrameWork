@@ -11,15 +11,15 @@ public abstract class BaseBeheviour
     static Dictionary<string, BaseManager> Managers = new Dictionary<string, BaseManager>();
     static Dictionary<string, BaseObject> ExtManagers = new Dictionary<string, BaseObject>();
 
-    private Canvas _uiCanvas;
+    private Transform _uiCanvas;
 
-    protected Canvas uiCanvas
+    protected Transform uiCanvas
     {
         get
         {
             if (_uiCanvas == null)
             {
-                _uiCanvas = GameObject.Find("/MainGame/UICanvas").GetComponent<Canvas>();
+                _uiCanvas = GameObject.Find("/MainGame/UICanvas").transform;
             }
             return _uiCanvas;
         }
@@ -71,6 +71,7 @@ public abstract class BaseBeheviour
     {
         AddManager<UIManager>();
         AddManager<GameManager>();
+        AddManager<PanelManager>();
         AddManager<SoundManager>();
         AddManager<ActorManager>();
         AddManager<CSceneManager>();
@@ -184,12 +185,25 @@ public abstract class BaseBeheviour
             return _uiMgr;
         }
     }
+    private static PanelManager _panelMgr;
+    public static PanelManager panelMgr
+    {
+        get
+        {
+            if(_panelMgr == null)
+            {
+                _panelMgr = GetManager<PanelManager>();
+            }
+            return _panelMgr;
+        }
+    }
+
     private static SoundManager _soundMgr;
     public static SoundManager soundMgr
     {
         get
         {
-            if(_soundMgr != null)
+            if(_soundMgr == null)
             {
                 _soundMgr = GetManager<SoundManager>();
             }

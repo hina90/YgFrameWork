@@ -14,7 +14,7 @@ public class UI_Loading : UIBase
     /// <summary>
     /// 初始化UI
     /// </summary>
-    public override void Init()
+    public override void Initialize()
     {
        
     }

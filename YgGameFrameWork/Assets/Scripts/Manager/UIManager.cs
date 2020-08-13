@@ -59,7 +59,7 @@ public class UIManager : BaseManager
     /// </summary>
     /// <param name="layerType"></param>
     /// <returns></returns>
-    private GameObject GetLayer(UILayer layerType)
+    public GameObject GetLayer(UILayer layerType)
     {
         return layerDic[layerType];
     }

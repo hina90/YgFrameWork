@@ -14,9 +14,9 @@ public class UI_Loading : UIBase
     /// <summary>
     /// 初始化UI
     /// </summary>
-    public override void Initialize()
+    public override void Initialize(object[] param = null)
     {
-       
+        base.Initialize(param);
     }
     /// <summary>
     /// 进入LoadingUI
@@ -25,11 +25,7 @@ public class UI_Loading : UIBase
     {
         bar = Find<Image>(gameObject, "bar");
         barText = Find<Text>(gameObject, "barTxt");
-
         bar.fillAmount = 0;
-
-        //Callback callback = (Callback)param[0];
-        //callback();
     }
     /// <summary>
     /// 显示进度
@@ -56,12 +52,19 @@ public class UI_Loading : UIBase
         //加载完成
         eventDic[GameEvent.SCENE_LOAD_COMPLETE] = delegate (object[] param)
         {
-            //TimerManager.Instance.CreateUnityTimer(0.1f, () =>
-            //{
-            //    UIManager.Instance.CloseUI(LayerMenue.LOADING);
-            //});
+            var timeMgr = ManagementCenter.GetExtManager("TimerManager") as CTimer;
+            timeMgr.AddTimer(0.5f, 0, (obj) =>
+            {
+                var panelMgr = ManagementCenter.GetManager<PanelManager>();
+                panelMgr.ClosePanel("UI_Loading");
+            });
         };
 
         return eventDic;
+    }
+
+    public override void Release()
+    {
+        base.Release();
     }
 }

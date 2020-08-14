@@ -9,6 +9,9 @@ using DG.Tweening;
 /// </summary>
 public class GameManager : BaseManager
 {
+    /// <summary>
+    /// 初始化游戏管理器
+    /// </summary>
     public override void Initialize()
     {
         QualitySettings.vSyncCount = 2;
@@ -25,10 +28,14 @@ public class GameManager : BaseManager
         }
         Utils.SetDebugState(AppConst.LogMode);
         Application.targetFrameRate = AppConst.GameFrameRate;
-        //创建loading UI 
+        //创建loading UI
+
+        //初始化资源
         ResInitialize();
     }
-
+    /// <summary>
+    /// 初始化资源
+    /// </summary>
     public void ResInitialize()
     {
         if(AppConst.DebugMode)
@@ -36,7 +43,9 @@ public class GameManager : BaseManager
             OnResInitOK();
         }
     }
-
+    /// <summary>
+    /// 初始化资源完成
+    /// </summary>
     private void OnResInitOK()
     {
         resMgr.Initialize();
@@ -57,12 +66,13 @@ public class GameManager : BaseManager
         timerMgr.Initialize();
         moduleMgr.Initialize();
         uiMgr.Initialize();
+        panelMgr.Initialize();
         sceneMgr.Initialize();
         actorMgr.Initialize();
 
-        Debug.Log("------------初始化完成-------------");
+        sceneMgr.ChangeScene("MainScene");
 
-        panelMgr.OpenPanel<UI_MainGame>(UILayer.Fixed);
+        //panelMgr.OpenPanel<UI_MainGame>(UILayer.Common);
     }
 
     public override void OnUpdate(float deltaTime)

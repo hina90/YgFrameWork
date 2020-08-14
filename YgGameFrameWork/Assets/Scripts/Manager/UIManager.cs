@@ -15,6 +15,27 @@ public class UIManager : BaseManager
 
 
     /// <summary>
+    /// 添加UI摄像机
+    /// </summary>
+    public void AddUICamera(Canvas canvas)
+    {
+        if (uiCamera != null)
+        {
+            canvas.worldCamera = uiCamera;
+            canvas.renderMode = RenderMode.ScreenSpaceCamera;
+            uiCamera.gameObject.SetActive(true);
+        }
+    }
+    /// <summary>
+    /// 隐藏UI摄像机
+    /// </summary>
+    public void RemoveUICamera(Canvas canvas)
+    {
+        uiCamera.gameObject.SetActive(false);
+        canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+    }
+
+    /// <summary>
     /// 初始化
     /// </summary>
     public override void Initialize()
@@ -238,7 +259,7 @@ public class UIManager : BaseManager
     //{
     //    if (uiDic.ContainsKey(ui.name))
     //        uiDic.Remove(ui.name);
-       
+
     //     Destroy(ui.gameObject, 0.1f);
     //}
     ///// <summary>
@@ -269,26 +290,7 @@ public class UIManager : BaseManager
     //        ui.MainUpdate();
     //    }
     //}
-    ///// <summary>
-    ///// 添加UI摄像机
-    ///// </summary>
-    //public void AddUICamera(Canvas canvas)
-    //{
-    //    if (uiCamera != null)
-    //    {
-    //        canvas.worldCamera = uiCamera;
-    //        canvas.renderMode = RenderMode.ScreenSpaceCamera;
-    //        uiCamera.gameObject.SetActive(true);
-    //    }
-    //}
-    ///// <summary>
-    ///// 隐藏UI摄像机
-    ///// </summary>
-    //public void RemoveUICamera(Canvas canvas)
-    //{
-    //    uiCamera.gameObject.SetActive(false);
-    //    canvas.renderMode = RenderMode.ScreenSpaceOverlay;
-    //}
+    
     //public bool DoUIAnimation(GameObject inUI, eUIAnimation inType, Callback callback = null)
     //{
     //    switch (inType)

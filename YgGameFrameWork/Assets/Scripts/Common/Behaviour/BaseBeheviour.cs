@@ -13,6 +13,9 @@ public abstract class BaseBeheviour
 
     private Transform _uiCanvas;
 
+    /// <summary>
+    /// UI显示容器
+    /// </summary>
     protected Transform uiCanvas
     {
         get
@@ -24,19 +27,38 @@ public abstract class BaseBeheviour
             return _uiCanvas;
         }
     }
-
-    private Camera _battleCamera;
-    protected Camera battleCamera
+    /// <summary>
+    /// 主摄像机
+    /// </summary>
+    private Camera _mainCamera;
+    protected Camera mainCamera
     {
         get
         { 
-            if(_battleCamera == null)
+            if(_mainCamera == null)
             {
-                _battleCamera = Camera.main;
+                _mainCamera = Camera.main;
             }
-            return _battleCamera;
+            return _mainCamera;
         }
     }
+    /// <summary>
+    /// UI摄像机
+    /// </summary>
+    private Camera _uiCamera;
+    protected Camera uiCamera
+    {
+        get
+        {
+            if(_uiCamera == null)
+            {
+                _uiCamera = GameObject.Find("/MainGame/MainCamera/UICamera").GetComponent<Camera>();
+            }
+            return _uiCamera;
+        }
+    }
+
+
 
     public T Instantiate<T>(T original) where T : UnityEngine.Object
     {

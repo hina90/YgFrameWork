@@ -8,9 +8,6 @@ using UnityEngine;
 public class UIBase : GameBehaviour
 {
     public object[] param;                          //参数
-   
-    public UIBase BackUi { get; set; }             //上一层UI
-    //public LayerMenue Layer { get; set; }          //UI层级
     //UI上的监听事件列表
     protected Dictionary<GameEvent, Callback<object[]>> eventDic = null;
 
@@ -29,25 +26,25 @@ public class UIBase : GameBehaviour
         {
             uiCamera = value;
             Canvas canvas = GetComponent<Canvas>();
-            //if (uiCamera) UIManager.Instance.AddUICamera(canvas);
-            //else UIManager.Instance.RemoveUICamera(canvas);
+            var uiMgr = ManagementCenter.GetManager<UIManager>();
+            if (uiCamera) uiMgr.AddUICamera(canvas);
+            else uiMgr.RemoveUICamera(canvas);
         }
     }
     /// <summary>
     /// UI初始化事件（初始化的数据处理放此处，如：配置档数据）
     /// </summary>
-    public virtual void Initialize()
+    public virtual void Initialize(object[] param = null)
     {
-
+        this.param = param;
     }
 
     /// <summary>
     /// 打开UI
     /// </summary>
-    public void Open(object[] param = null)
+    public void Open()
     {
         //获取事件列表
-        this.param = param;
         eventDic = CtorEvent();
         Enter();
         Show();
@@ -150,19 +147,11 @@ public class UIBase : GameBehaviour
     {
         gameObject.SetActive(true);
     }
-
     /// <summary>
-    /// 返回到上一层UI
-    /// </summary>
-    public void BackToUI()
-    {
-        //UIManager.Instance.BackUI(Layer);
-    }
-    /// <summary>
-    /// 释放
+    /// 释放数据
     /// </summary>
     public virtual void Release()
     {
-        //UIManager.Instance.Release(this);
+        
     }
 }

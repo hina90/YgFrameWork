@@ -25,8 +25,9 @@ public class CSceneManager : BaseManager
     /// </summary>
     public override void Initialize()
     {
-        sceneDic["LevelGameScene"] = new LevelGameScene();
-        //sceneDic["BattleScene"] = new BattleScene();
+        isOnUpdate = false;
+
+        sceneDic["MainScene"] = new MainScene();
     }
 
     public override void OnUpdate(float deltaTime)

@@ -75,6 +75,7 @@ public class CTimer : BaseObject
     {
         var timer = new TimerInfo();
         timer.interval = interval;
+        timer.expire = expires;
         timer.timerfunc = func;
         timer.param = param;
         timer.tick = runNow ? interval : 0;
@@ -211,7 +212,7 @@ public class CTimer : BaseObject
     /// <summary>
     /// ticker计时
     /// </summary>
-    void OnTicker()
+    void OnTicker(float deltaTime)
     {
         if(tickers.Count > 0)
         {
@@ -245,7 +246,9 @@ public class CTimer : BaseObject
 
     public override void OnUpdate(float deltaTime)
     {
-        
+        OnTimer(deltaTime);
+        OnTicker(deltaTime);
+        OnTimeTicker(deltaTime);
     }
 
     public override void OnDispose()

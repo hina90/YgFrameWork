@@ -14,7 +14,7 @@ public enum SceneState
 /// </summary>
 public class BaseScene:BaseBeheviour
 {
-    protected object[] param;                        //参数
+    protected object[] param;                       //参数
     private int preState;                           //处理上一个场景的状态（销毁or隐藏）
     private string resName;                         //资源名字
     private float loadProgress;                     //加载进度
@@ -38,7 +38,7 @@ public class BaseScene:BaseBeheviour
         resName = "";
         //获取事件列表
         eventDic = CtorEvent();
-        //UIManager.Instance.OpenUI<UI_Loading>();
+        panelMgr.OpenPanel<UI_Loading>(UILayer.Fixed);
     }
 
     /// <summary>
@@ -54,11 +54,11 @@ public class BaseScene:BaseBeheviour
             delegate()
             {
                 Enter();
-                //uiMgr.SendUIEvent(GameEvent.SCENE_LOAD_COMPLETE);
+                panelMgr.SendPanelEvent(GameEvent.SCENE_LOAD_COMPLETE);
             },
             delegate(float value)
             {
-                //uiMgr.SendUIEvent(GameEvent.SCENE_LOAD_PROGRESS, value);
+                panelMgr.SendPanelEvent(GameEvent.SCENE_LOAD_PROGRESS, value);
             });
     }
     /// <summary>

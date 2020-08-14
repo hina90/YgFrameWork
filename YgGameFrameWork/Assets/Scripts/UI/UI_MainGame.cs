@@ -17,9 +17,9 @@ public class UI_MainGame : UIBase
     /// <summary>
     /// 初始化
     /// </summary>
-    public override void Initialize()
+    public override void Initialize(object[] param = null)
     {
-
+        base.Initialize(param);
     }
 
     /// <summary>
@@ -27,8 +27,19 @@ public class UI_MainGame : UIBase
     /// </summary>
     protected override void Enter()
     {
-        Debug.Log("------------------Enter------------------");
+        Find<Button>(gameObject, "Btn1").onClick.AddListener(delegate()
+        {
+            var panelMgr = ManagementCenter.GetManager<PanelManager>();
+            panelMgr.OpenPanel<UI_Prop>(UILayer.Fixed);
 
+
+            CTimer timeMgr = ManagementCenter.GetExtManager("TimerManager") as CTimer;
+            timeMgr.AddTimer(3, 0, (obj)=>
+            {
+                panelMgr.OpenPanel<UI_Second>(UILayer.Fixed);
+            });
+
+        });
     }
     public override Dictionary<GameEvent, Callback<object[]>> CtorEvent()
     {

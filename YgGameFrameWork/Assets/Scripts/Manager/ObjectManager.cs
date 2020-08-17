@@ -30,7 +30,30 @@ public class ObjectManager : BaseManager
 
     public override void Initialize()
     {
-        
+        var abName1 = "Prefabs/Object/NPCObject";
+        var assetNames1 = new string[] { "NPCObject" };
+        resMgr.LoadAssetAsync<GameObject>(abName1, assetNames1, delegate (Object[] prefabs)
+        {
+            var npcPrefab = prefabs[0] as GameObject;
+            this.CreatePool(PoolNames.NPC, 5, 10, npcPrefab, true);
+        });
+
+        //var abName2 = "Prefabs/Object/BulletObject";
+        //var assetNames2 = new string[] { "BulletObject" };
+        //resMgr.LoadAssetAsync<GameObject>(abName2, assetNames2, delegate (Object[] prefabs)
+        //{
+        //    var bulletPrefab = prefabs[0] as GameObject;
+        //    this.CreatePool(PoolNames.BULLET, 5, 10, bulletPrefab);
+        //});
+
+        //var abName3 = "Prefabs/Object/EffectObject";
+        //var assetNames3 = new string[] { "EffectObject" };
+        //resMgr.LoadAssetAsync<GameObject>(abName3, assetNames3, delegate (Object[] prefabs)
+        //{
+        //    var effectPrefab = prefabs[0] as GameObject;
+        //    this.CreatePool(PoolNames.EFFECT, 5, 10, effectPrefab);
+        //});
+
     }
     /// <summary>
     /// 创建缓存池

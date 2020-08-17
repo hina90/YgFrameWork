@@ -68,7 +68,8 @@ public class GameManager : BaseManager
         uiMgr.Initialize();
         panelMgr.Initialize();
         sceneMgr.Initialize();
-        actorMgr.Initialize();
+        objMgr.Initialize();
+        npcMgr.Initialize();
 
         sceneMgr.ChangeScene("MainScene");
 

@@ -18,10 +18,6 @@ public class BaseActor : MonoBehaviour
     /// </summary>
     public int ActorID { get; set; }
     /// <summary>
-    /// AI控制器
-    /// </summary>
-    public AIController AiController { get; set; }
-    /// <summary>
     /// 目标
     /// </summary>
     public Transform Target { get; set; }
@@ -48,7 +44,5 @@ public class BaseActor : MonoBehaviour
     /// </summary>
     public virtual void Release()
     {
-        AiController.Release();
-        AiController = null;
     }
 }

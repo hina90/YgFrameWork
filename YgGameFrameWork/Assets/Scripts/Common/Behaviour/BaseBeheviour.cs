@@ -65,7 +65,7 @@ public abstract class BaseBeheviour
         return GameObject.Instantiate<T>(original);
     }
 
-    public static void Destroy(UnityEngine.Object obj, float t)
+    public static void Destroy(UnityEngine.Object obj, float t = 0)
     {
         if(obj != null)
         {
@@ -95,7 +95,8 @@ public abstract class BaseBeheviour
         AddManager<GameManager>();
         AddManager<PanelManager>();
         AddManager<SoundManager>();
-        AddManager<ActorManager>();
+        AddManager<NpcManager>();
+        AddManager<ObjectManager>();
         AddManager<CSceneManager>();
         AddManager<ResourceManager>();
         AddManager<GameModuleManager>();
@@ -256,16 +257,28 @@ public abstract class BaseBeheviour
             return _moduleMgr;
         }
     }
-    private static ActorManager _actorMgr;
-    public static ActorManager actorMgr
+    private static NpcManager _npcMgr;
+    public static NpcManager npcMgr
     {
         get
         {
-            if(_actorMgr == null)
+            if(_npcMgr == null)
             {
-                _actorMgr = GetManager<ActorManager>();
+                _npcMgr = GetManager<NpcManager>();
             }
-            return _actorMgr;
+            return _npcMgr;
+        }
+    }
+    private static ObjectManager _objMgr;
+    public static ObjectManager objMgr
+    {
+        get
+        {
+            if(_objMgr == null)
+            {
+                _objMgr = GetManager<ObjectManager>();
+            }
+            return _objMgr;
         }
     }
     //==========================扩展管理器=============================

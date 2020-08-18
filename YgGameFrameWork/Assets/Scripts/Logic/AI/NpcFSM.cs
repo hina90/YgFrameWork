@@ -13,7 +13,7 @@ public class NpcFSM : BaseFSM
         SetVar<int>("targetId", 0);
         base.Initialize();
     }
-
+     
     public override void AddStates()
     {
         

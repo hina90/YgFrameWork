@@ -14,11 +14,18 @@ public class NpcView : BaseBeheviour, INpcView
     public ViewObject viewObject;
     protected GameObject roleObject;
 
-    private NPCData npcData;
-    public NPCData NpcData { get => npcData; set => npcData = value; }
+    private NpcData npcData;
+    public NpcData NpcData { get => npcData; set => npcData = value; }
 
-    public virtual void Initialize(NPCData npcData, Vector3 spawnPos, Action initOK = null)
+    public virtual void Initialize(NpcData npcData, Vector3 pos, Action initOK = null)
     {
+        var id = npcData.roleid.ToString();
+        CreateNpcObject(id, pos, new Vector2(1, 1), delegate (GameObject prefab)
+        {
+            gameObject.transform.position = pos;
+
+            if (initOK != null) initOK();
+        });
     }
     public virtual void OnAwake()
     {
@@ -36,7 +43,7 @@ public class NpcView : BaseBeheviour, INpcView
     /// </summary>
     protected void CreateNpcObject(string roleid, Vector3 pos, Vector2 scale, Action<GameObject> loadOK)
     {
-        var path = "Prefabs/Character/" + roleid;
+        var path = "Prefabs/Character/Npc/" + roleid;
         resMgr.LoadAssetAsync<GameObject>(path, new[] { roleid }, delegate (UObject[] prefabs)
         {
             if (prefabs[0] == null) return;

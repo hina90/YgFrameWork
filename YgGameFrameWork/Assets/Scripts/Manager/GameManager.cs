@@ -54,13 +54,14 @@ public class GameManager : BaseManager
             this.OnInitialzeOK();
         });
     }
+
+    private LogicManager logicMgr = null;
     /// <summary>
     /// 初始化完成
     /// </summary>
     void OnInitialzeOK()
     {
         configMgr.Initialize();
-        tableMgr.Initialize();
         soundMgr.Initialize();
 
         timerMgr.Initialize();
@@ -68,8 +69,13 @@ public class GameManager : BaseManager
         uiMgr.Initialize();
         panelMgr.Initialize();
         sceneMgr.Initialize();
+
         objMgr.Initialize();
         npcMgr.Initialize();
+
+        logicMgr = new LogicManager();
+        logicMgr.Initialize();
+
 
         sceneMgr.ChangeScene("MainScene");
 

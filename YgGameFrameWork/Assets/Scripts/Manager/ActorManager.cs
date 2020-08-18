@@ -39,8 +39,8 @@ public class ActorManager : BaseManager
     /// <param name="scale">缩放大小</param>
     /// <returns></returns>
     /// 
-    public BaseActor CreateActor<T>(CustomerConfigData configData, float scale = 1) where T:BaseActor
-    {
+    //public BaseActor CreateActor<T>(CustomerConfigData configData, float scale = 1) where T:BaseActor
+    //{
         //if (!actorPool.ContainsKey(configData.icon))
         //    actorPool.Add(configData.icon, new List<GameObject>());
 
@@ -49,8 +49,8 @@ public class ActorManager : BaseManager
         //BaseActor base_class = actorObject.GetOrAddComponent<T>();
 
         //return base_class;
-        return null;
-    }
+        //return null;
+    //}
     /// <summary>
     /// 销毁角色
     /// </summary>

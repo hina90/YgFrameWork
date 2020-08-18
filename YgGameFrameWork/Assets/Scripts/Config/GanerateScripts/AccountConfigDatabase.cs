@@ -4,34 +4,34 @@ using UnityEngine;
 
 namespace Tool.Database
 {
-    public class SoundConfigData
+    public class AccountConfigData
     {
         /// <summary>
-		///音效ID
+		///等级
 		/// </summary>
-		public string name;
+		public int Lvl;
 		/// <summary>
-		///资源路径
+		///等级经验下限
 		/// </summary>
-		public string path;
+		public Double ExpMin;
 		/// <summary>
-		///音效音量
+		///等级经验上限
 		/// </summary>
-		public float volume;
+		public Double ExpMax;
 		/// <summary>
-		///备注
+		///升级奖励金币数量
 		/// </summary>
-		public string remark;
+		public Double RewardCount;
     }
 
-    public class SoundConfigDatabase : IDatabase
+    public class AccountConfigDatabase : IDatabase
     {
-        public const uint TYPE_ID =12;
-        public const string DATA_PATH ="Config/SoundConfig";
+        public const uint TYPE_ID =1;
+        public const string DATA_PATH ="Config/AccountConfig";
 
-        private List<SoundConfigData> m_datas;
+        private List<AccountConfigData> m_datas;
 
-        public  SoundConfigDatabase() { }
+        public  AccountConfigDatabase() { }
 
         public uint TypeID()
         {
@@ -49,32 +49,32 @@ namespace Tool.Database
             m_datas = GetAllData(CSVConverter.SerializeCSVData(textAsset));
         }
 
-		private List<SoundConfigData> GetAllData(string[][] m_datas)
+		private List<AccountConfigData> GetAllData(string[][] m_datas)
 		{
-			List<SoundConfigData> m_tempList = new List<SoundConfigData>();
+			List<AccountConfigData> m_tempList = new List<AccountConfigData>();
 			for (int i = 0; i < m_datas.Length; i++)
             {
-				SoundConfigData m_tempData = new SoundConfigData();
-                m_tempData.name=m_datas[i][0];
-					m_tempData.path=m_datas[i][1];
-					
-				if (!float.TryParse(m_datas[i][2].Trim(),out m_tempData.volume))
+				AccountConfigData m_tempData = new AccountConfigData();
+                
+				if (!int.TryParse(m_datas[i][0].Trim(),out m_tempData.Lvl))
 				{
-					m_tempData.volume=0.0f;
+					m_tempData.Lvl=0;
 				}
 
-					m_tempData.remark=m_datas[i][3];
+					
+					
+					
 				m_tempList.Add(m_tempData);
             }
             return m_tempList;
 		}
 
-        public SoundConfigData GetDataByKey(string key)
+        public AccountConfigData GetDataByKey(string key)
         {
-			return m_datas.Find(temp => temp.name == key);
+			return m_datas.Find(temp => temp.Lvl == int.Parse(key));
         }
 
-		public List<SoundConfigData> FindAll(Predicate<SoundConfigData> handler = null)
+		public List<AccountConfigData> FindAll(Predicate<AccountConfigData> handler = null)
 		{
 			if (handler == null)
             {

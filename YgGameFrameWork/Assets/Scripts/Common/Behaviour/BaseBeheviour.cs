@@ -92,14 +92,13 @@ public abstract class BaseBeheviour
     private static void InitManagers()
     {
         AddManager<UIManager>();
+        AddManager<NpcManager>();
         AddManager<GameManager>();
         AddManager<PanelManager>();
         AddManager<SoundManager>();
-        AddManager<NpcManager>();
         AddManager<ObjectManager>();
         AddManager<CSceneManager>();
         AddManager<ResourceManager>();
-        AddManager<GameModuleManager>();
     }
     /// <summary>
     /// 初始化扩展管理器
@@ -108,7 +107,7 @@ public abstract class BaseBeheviour
     {
         ExtManagers.Add("ConfigManager", configMgr);
         ExtManagers.Add("TimerManager", timerMgr);
-        ExtManagers.Add("TableManager", tableMgr);
+        ExtManagers.Add("GameModuleManager", moduleMgr);
     }
     /// <summary>
     /// 初始化组件
@@ -184,6 +183,19 @@ public abstract class BaseBeheviour
         }
     }
 
+    private static NpcManager _npcMgr;
+    public static NpcManager npcMgr
+    {
+        get
+        {
+            if (_npcMgr == null)
+            {
+                _npcMgr = GetManager<NpcManager>();
+            }
+            return _npcMgr;
+        }
+    }
+
     private static CSceneManager _sceneMgr;
     public static CSceneManager sceneMgr
     {
@@ -252,21 +264,9 @@ public abstract class BaseBeheviour
         {
             if(_moduleMgr == null)
             {
-                _moduleMgr = GetManager<GameModuleManager>();
+                _moduleMgr = GameModuleManager.Create();
             }
             return _moduleMgr;
-        }
-    }
-    private static NpcManager _npcMgr;
-    public static NpcManager npcMgr
-    {
-        get
-        {
-            if(_npcMgr == null)
-            {
-                _npcMgr = GetManager<NpcManager>();
-            }
-            return _npcMgr;
         }
     }
     private static ObjectManager _objMgr;
@@ -274,13 +274,14 @@ public abstract class BaseBeheviour
     {
         get
         {
-            if(_objMgr == null)
+            if (_objMgr == null)
             {
                 _objMgr = GetManager<ObjectManager>();
             }
             return _objMgr;
         }
     }
+
     //==========================扩展管理器=============================
     private static ConfigManager _configMgr;
     public static ConfigManager configMgr
@@ -306,20 +307,6 @@ public abstract class BaseBeheviour
             return _timerMgr;
         }
     }
-
-    private static TableManager _tableMgr;
-    public static TableManager tableMgr
-    {
-        get
-        {
-            if(_tableMgr == null)
-            {
-                _tableMgr = TableManager.Create();
-            }
-            return _tableMgr;
-        }
-    }
-
 
     /// <summary>
     /// 控制器更新

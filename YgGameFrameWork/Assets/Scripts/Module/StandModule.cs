@@ -4,12 +4,12 @@ using Tool.Database;
 public class StandModule : BaseModule
 {
     private int standNum = 5;//展台的个数
-    private Dictionary<int, StandData> _StandCache;
-    public Dictionary<int, StandData> StandCache { get { return _StandCache; } }
+    //private Dictionary<int, StandData> _StandCache;
+    //public Dictionary<int, StandData> StandCache { get { return _StandCache; } }
     internal override void Init(GameModuleManager moduleManager)
     {
         base.Init(moduleManager);
-        _StandCache = new Dictionary<int, StandData>();
+        //_StandCache = new Dictionary<int, StandData>();
         ReadData();
         ParseConfig();
     }
@@ -22,21 +22,21 @@ public class StandModule : BaseModule
         //{
         //    GetStandData(i + 1);
         //}
-        List<StandConfigData> standConfigDatas = ConfigDataManager.Instance.GetDatabase<StandConfigDatabase>().FindAll();
-        standConfigDatas.ForEach((config) => {
-            GetStandData(config.id);
-        });
+        //List<StandConfigData> standConfigDatas = ConfigDataManager.Instance.GetDatabase<StandConfigDatabase>().FindAll();
+        //standConfigDatas.ForEach((config) => {
+        //    GetStandData(config.id);
+        //});
     }
     /// <summary>
     /// 获取展台的数据
     /// </summary>
     /// <param name="standID"></param>
     /// <returns></returns>
-    public StandData GetStandData(int standID)
-    {
+    //public StandData GetStandData(int standID)
+    //{
         
-        return null;
-    }
+    //    return null;
+    //}
   
     internal override void ReadData()
     {

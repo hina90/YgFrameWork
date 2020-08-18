@@ -4,34 +4,30 @@ using UnityEngine;
 
 namespace Tool.Database
 {
-    public class SoundConfigData
+    public class NumShowConfigData
     {
         /// <summary>
-		///音效ID
+		///数值单位ID
 		/// </summary>
-		public string name;
+		public int ID;
 		/// <summary>
-		///资源路径
+		///数值上限值
 		/// </summary>
-		public string path;
+		public Double numCount;
 		/// <summary>
-		///音效音量
+		///单位
 		/// </summary>
-		public float volume;
-		/// <summary>
-		///备注
-		/// </summary>
-		public string remark;
+		public string numUnit;
     }
 
-    public class SoundConfigDatabase : IDatabase
+    public class NumShowConfigDatabase : IDatabase
     {
-        public const uint TYPE_ID =12;
-        public const string DATA_PATH ="Config/SoundConfig";
+        public const uint TYPE_ID =10;
+        public const string DATA_PATH ="Config/NumShowConfig";
 
-        private List<SoundConfigData> m_datas;
+        private List<NumShowConfigData> m_datas;
 
-        public  SoundConfigDatabase() { }
+        public  NumShowConfigDatabase() { }
 
         public uint TypeID()
         {
@@ -49,32 +45,31 @@ namespace Tool.Database
             m_datas = GetAllData(CSVConverter.SerializeCSVData(textAsset));
         }
 
-		private List<SoundConfigData> GetAllData(string[][] m_datas)
+		private List<NumShowConfigData> GetAllData(string[][] m_datas)
 		{
-			List<SoundConfigData> m_tempList = new List<SoundConfigData>();
+			List<NumShowConfigData> m_tempList = new List<NumShowConfigData>();
 			for (int i = 0; i < m_datas.Length; i++)
             {
-				SoundConfigData m_tempData = new SoundConfigData();
-                m_tempData.name=m_datas[i][0];
-					m_tempData.path=m_datas[i][1];
-					
-				if (!float.TryParse(m_datas[i][2].Trim(),out m_tempData.volume))
+				NumShowConfigData m_tempData = new NumShowConfigData();
+                
+				if (!int.TryParse(m_datas[i][0].Trim(),out m_tempData.ID))
 				{
-					m_tempData.volume=0.0f;
+					m_tempData.ID=0;
 				}
 
-					m_tempData.remark=m_datas[i][3];
+					
+					m_tempData.numUnit=m_datas[i][2];
 				m_tempList.Add(m_tempData);
             }
             return m_tempList;
 		}
 
-        public SoundConfigData GetDataByKey(string key)
+        public NumShowConfigData GetDataByKey(string key)
         {
-			return m_datas.Find(temp => temp.name == key);
+			return m_datas.Find(temp => temp.ID == int.Parse(key));
         }
 
-		public List<SoundConfigData> FindAll(Predicate<SoundConfigData> handler = null)
+		public List<NumShowConfigData> FindAll(Predicate<NumShowConfigData> handler = null)
 		{
 			if (handler == null)
             {

@@ -15,6 +15,10 @@ namespace Tool.Database
 		/// </summary>
 		public int type;
 		/// <summary>
+		///顾客等级
+		/// </summary>
+		public int level;
+		/// <summary>
 		///顾客名称
 		/// </summary>
 		public string name;
@@ -27,34 +31,42 @@ namespace Tool.Database
 		/// </summary>
 		public string icon;
 		/// <summary>
-		///顾客类型.1
-		/// </summary>
-		public int[] customerType;
-		/// <summary>
 		///刷新权重
 		/// </summary>
 		public int refreshWeight;
 		/// <summary>
-		///1星展馆表情
+		///自动解锁
 		/// </summary>
-		public int[] star1emotion;
+		public int autoUnlock;
 		/// <summary>
-		///2星展馆表情
+		///"效果类型1-金币加成2-经验加成"
 		/// </summary>
-		public int[] star2emotion;
+		public int effectType;
 		/// <summary>
-		///3星展馆表情
+		///加成效果
 		/// </summary>
-		public int[] star3emotion;
+		public float effectValue;
 		/// <summary>
-		///4星展馆表情
+		///下级ID
 		/// </summary>
-		public int[] star4emotion;
+		public int NextLvlID;
+		/// <summary>
+		///幸运合成几率
+		/// </summary>
+		public float luckyRate;
+		/// <summary>
+		///幸运合成增加等级
+		/// </summary>
+		public int LuckyNextLvlID;
+		/// <summary>
+		///回收价格
+		/// </summary>
+		public int RecoveryPrice;
     }
 
     public class CustomerConfigDatabase : IDatabase
     {
-        public const uint TYPE_ID =2;
+        public const uint TYPE_ID =3;
         public const string DATA_PATH ="Config/CustomerConfig";
 
         private List<CustomerConfigData> m_datas;
@@ -95,20 +107,63 @@ namespace Tool.Database
 					m_tempData.type=0;
 				}
 
-					m_tempData.name=m_datas[i][2];
-					m_tempData.introduction=m_datas[i][3];
-					m_tempData.icon=m_datas[i][4];
-					m_tempData.customerType=CSVConverter.ConvertToArray<int>(m_datas[i][5].Trim());
+					
+				if (!int.TryParse(m_datas[i][2].Trim(),out m_tempData.level))
+				{
+					m_tempData.level=0;
+				}
+
+					m_tempData.name=m_datas[i][3];
+					m_tempData.introduction=m_datas[i][4];
+					m_tempData.icon=m_datas[i][5];
 					
 				if (!int.TryParse(m_datas[i][6].Trim(),out m_tempData.refreshWeight))
 				{
 					m_tempData.refreshWeight=0;
 				}
 
-					m_tempData.star1emotion=CSVConverter.ConvertToArray<int>(m_datas[i][7].Trim());
-					m_tempData.star2emotion=CSVConverter.ConvertToArray<int>(m_datas[i][8].Trim());
-					m_tempData.star3emotion=CSVConverter.ConvertToArray<int>(m_datas[i][9].Trim());
-					m_tempData.star4emotion=CSVConverter.ConvertToArray<int>(m_datas[i][10].Trim());
+					
+				if (!int.TryParse(m_datas[i][7].Trim(),out m_tempData.autoUnlock))
+				{
+					m_tempData.autoUnlock=0;
+				}
+
+					
+				if (!int.TryParse(m_datas[i][8].Trim(),out m_tempData.effectType))
+				{
+					m_tempData.effectType=0;
+				}
+
+					
+				if (!float.TryParse(m_datas[i][9].Trim(),out m_tempData.effectValue))
+				{
+					m_tempData.effectValue=0.0f;
+				}
+
+					
+				if (!int.TryParse(m_datas[i][10].Trim(),out m_tempData.NextLvlID))
+				{
+					m_tempData.NextLvlID=0;
+				}
+
+					
+				if (!float.TryParse(m_datas[i][11].Trim(),out m_tempData.luckyRate))
+				{
+					m_tempData.luckyRate=0.0f;
+				}
+
+					
+				if (!int.TryParse(m_datas[i][12].Trim(),out m_tempData.LuckyNextLvlID))
+				{
+					m_tempData.LuckyNextLvlID=0;
+				}
+
+					
+				if (!int.TryParse(m_datas[i][13].Trim(),out m_tempData.RecoveryPrice))
+				{
+					m_tempData.RecoveryPrice=0;
+				}
+
 				m_tempList.Add(m_tempData);
             }
             return m_tempList;

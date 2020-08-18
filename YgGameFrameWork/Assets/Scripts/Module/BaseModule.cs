@@ -7,8 +7,9 @@ public class BaseModule
     internal virtual void Init(GameModuleManager moduleManager)
     {
         this.moduleManager = moduleManager;
+        ReadData();
     }
-    internal virtual void OnUpdate() { }
+    internal virtual void OnUpdate(float deltalTime) { }
     internal virtual void ReadData() { }
     internal virtual void SaveData() { }
     internal virtual void ResetData() { }

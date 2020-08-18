@@ -63,7 +63,7 @@ public class NpcManager : BaseManager
     /// <summary>
     /// 创建NPC
     /// </summary>
-    public T CreateNpc<T>(NPCData npcData, Transform parent) where T : NpcView, new()
+    public T CreateNpc<T>(NpcData npcData, Transform parent) where T : NpcView, new()
     {
         var gameObj = objMgr.Get(PoolNames.NPC);     //一个客户端对象
         gameObj.transform.SetParent(parent);

@@ -26,12 +26,12 @@ public class ObjectManager : BaseManager
             return m_PoolRootObject;
         }
     }
-
+    
 
     public override void Initialize()
     {
-        var abName1 = "Prefabs/Object/NPCObject";
-        var assetNames1 = new string[] { "NPCObject" };
+        var abName1 = "Prefabs/Object/NpcObject";
+        var assetNames1 = new string[] { "NpcObject" };
         resMgr.LoadAssetAsync<GameObject>(abName1, assetNames1, delegate (Object[] prefabs)
         {
             var npcPrefab = prefabs[0] as GameObject;

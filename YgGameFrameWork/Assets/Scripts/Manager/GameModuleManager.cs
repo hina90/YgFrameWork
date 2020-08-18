@@ -6,14 +6,32 @@ using UnityEngine;
 /// <summary>
 /// 游戏数据模块管理器
 /// </summary>
-public class GameModuleManager : BaseManager
+public class GameModuleManager : BaseObject
 {
+    private static GameModuleManager instance;
+
     public Dictionary<string, BaseModule> m_ModuleDic;
 
-
+    /// <summary>
+    /// 创建管理器
+    /// </summary>
+    /// <returns></returns>
+    public static GameModuleManager Create()
+    {
+        if(instance == null)
+        {
+            instance = new GameModuleManager();
+        }
+        return instance;
+    }
+    /// <summary>
+    /// 初始化Npc模块
+    /// </summary>
     public override void Initialize()
     {
         m_ModuleDic = new Dictionary<string, BaseModule>();
+
+        RegisterModule<NpcModule>();
     }
 
     /// <summary>
@@ -23,7 +41,7 @@ public class GameModuleManager : BaseManager
     {
         foreach (var module in m_ModuleDic.Values)
         {
-            module.OnUpdate();
+            module.OnUpdate(deltaTime);
         }
     }
 

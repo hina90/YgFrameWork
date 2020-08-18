@@ -11,18 +11,18 @@ namespace Tool.Database
 		public ConfigDataManager()
 		{
 			m_Databases = new Dictionary<uint, IDatabase>();
-			RegisterDataType(new CultivateConfigDatabase());
+			RegisterDataType(new AccountConfigDatabase());
+			RegisterDataType(new AchieveConfigDatabase());
 			RegisterDataType(new CustomerConfigDatabase());
-			RegisterDataType(new DigAreaConfigDatabase());
-			RegisterDataType(new DigConfigDatabase());
-			RegisterDataType(new ExhibitsConfigDatabase());
+			RegisterDataType(new DecoConfigDatabase());
+			RegisterDataType(new EggConfigDatabase());
+			RegisterDataType(new ExhibitConfigDatabase());
 			RegisterDataType(new GlobalConfigDatabase());
-			RegisterDataType(new NewGameDatabase());
+			RegisterDataType(new GuideConfigDatabase());
+			RegisterDataType(new LuckyTurntableConfigDatabase());
+			RegisterDataType(new NumShowConfigDatabase());
+			RegisterDataType(new SingleInConfigDatabase());
 			RegisterDataType(new SoundConfigDatabase());
-			RegisterDataType(new StandConfigDatabase());
-			RegisterDataType(new StarClassConfigDatabase());
-			RegisterDataType(new SuperNpcConfigDatabase());
-			RegisterDataType(new UpRewardConfigDatabase());
 
 			Load();
 		}

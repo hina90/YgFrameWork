@@ -59,7 +59,6 @@ public class ViewObject : GameBehaviour
     public void BindView(INpcView view)
     {
         npcView = view;
-        Type type = view.GetType();
         var _npcView = view as NpcView;
         if (_npcView != null)
         {

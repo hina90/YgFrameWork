@@ -8,11 +8,12 @@ using UObject = UnityEngine.Object;
 /// <summary>
 /// NPC
 /// </summary>
-public class NpcView : BaseBeheviour, INpcView
+public class NpcView : NpcPather, INpcView
 {
     public GameObject gameObject;
     public ViewObject viewObject;
     protected GameObject roleObject;
+
 
     private NpcData npcData;
     public NpcData NpcData { get => npcData; set => npcData = value; }
@@ -23,6 +24,8 @@ public class NpcView : BaseBeheviour, INpcView
         CreateNpcObject(id, pos, new Vector2(1, 1), delegate (GameObject prefab)
         {
             gameObject.transform.position = pos;
+
+            base.Initialize(gameObject);
 
             if (initOK != null) initOK();
         });

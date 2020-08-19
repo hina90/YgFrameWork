@@ -54,8 +54,6 @@ public class GameManager : BaseManager
             this.OnInitialzeOK();
         });
     }
-
-    private LogicManager logicMgr = null;
     /// <summary>
     /// 初始化完成
     /// </summary>
@@ -72,10 +70,6 @@ public class GameManager : BaseManager
 
         objMgr.Initialize();
         npcMgr.Initialize();
-
-        logicMgr = new LogicManager();
-        logicMgr.Initialize();
-
 
         sceneMgr.ChangeScene("MainScene");
 

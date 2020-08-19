@@ -7,6 +7,8 @@ using UnityEngine;
 /// </summary>
 public class MainScene : BaseScene
 {
+    private LogicManager logicMgr = null;
+
     /// <summary>
     /// 创建
     /// </summary>
@@ -16,7 +18,7 @@ public class MainScene : BaseScene
         base.OnCreate(param);
         ResName = "MainScene";
     }
-
+    
     /// <summary>
     /// 进入主场景
     /// </summary>
@@ -26,6 +28,9 @@ public class MainScene : BaseScene
 
         var panelMgr = ManagementCenter.GetManager<PanelManager>();
         panelMgr.OpenPanel<UI_MainGame>(UILayer.Common);
+
+        logicMgr = new LogicManager();
+        logicMgr.Initialize();
     }
     /// <summary>
     /// 退出主场景

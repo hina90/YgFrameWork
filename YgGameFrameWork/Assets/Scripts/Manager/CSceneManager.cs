@@ -28,6 +28,7 @@ public class CSceneManager : BaseManager
         isOnUpdate = false;
 
         sceneDic["MainScene"] = new MainScene();
+        sceneDic["BattleScene"] = new BattleScene();
     }
 
     public override void OnUpdate(float deltaTime)

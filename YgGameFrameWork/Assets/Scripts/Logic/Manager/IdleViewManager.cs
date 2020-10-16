@@ -18,12 +18,12 @@ public class IdleViewManager : LogicBehaviour
         npcData.fsm = new NpcFSM();
         npcModule.AddNpcData(npcData);
 
-        var roleView = npcMgr.CreateNpc<NpcView>(npcData, IdleScene.transform);
-        npcMgr.AddNpc(npcData.npcid, roleView);
-        roleView.Initialize(npcData, startPoint.transform.position, ()=>
-        {
-            npcData.fsm.Initialize(npcData.npcid);
-        });
+        //var roleView = npcMgr.CreateNpc<NpcView>(npcData, IdleScene.transform);
+        //npcMgr.AddNpc(npcData.npcid, roleView);
+        //roleView.Initialize(npcData, startPoint.transform.position, ()=>
+        //{
+        //    npcData.fsm.Initialize(npcData.npcid);
+        //});
     }
 
     public override void OnUpdate(float deltaTime)

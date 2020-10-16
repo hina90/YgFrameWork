@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 //上一个场景的处理状态
 public enum SceneState
@@ -53,13 +54,47 @@ public class BaseScene:BaseBeheviour
         sceneMgr.LoadScene(ResName, PreState, 
             delegate()
             {
-                Enter();
-                panelMgr.SendPanelEvent(GameEvent.SCENE_LOAD_COMPLETE);
+                if (param.Length > 0 && param[0].ToString().Contains("Map"))
+                {
+                    LoadMap(param[0] as string, () =>
+                    {
+                        Enter();
+                        panelMgr.SendPanelEvent(GameEvent.SCENE_LOAD_COMPLETE);
+                    });
+                }
+                else
+                {
+                    Enter();
+                    panelMgr.SendPanelEvent(GameEvent.SCENE_LOAD_COMPLETE);
+                }
+
+                //Enter();
+                //panelMgr.SendPanelEvent(GameEvent.SCENE_LOAD_COMPLETE);
             },
             delegate(float value)
             {
                 panelMgr.SendPanelEvent(GameEvent.SCENE_LOAD_PROGRESS, value);
             });
+    }
+    /// <summary>
+    /// 加载地图
+    /// </summary>
+    protected void LoadMap(string mapName, Action callback)
+    {
+        var resPath = "Maps/" + mapName;
+        var resMgr = ManagementCenter.GetManager<ResourceManager>();
+        resMgr.LoadAssetAsync<GameObject>(resPath, new string[] { mapName }, delegate (UnityEngine.Object[] prefabs)
+        {
+            if (prefabs != null && prefabs[0] != null)
+            {
+                var gameObj = Instantiate<GameObject>(prefabs[0] as GameObject);
+                gameObj.transform.SetParent(battleScene);
+                gameObj.transform.localScale = Vector3.one;
+                gameObj.transform.localPosition = Vector3.zero;
+
+                callback?.Invoke();
+            }
+        });
     }
     /// <summary>
     /// 进入场景

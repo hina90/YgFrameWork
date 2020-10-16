@@ -44,5 +44,6 @@ public class BaseActor : MonoBehaviour
     /// </summary>
     public virtual void Release()
     {
+
     }
 }

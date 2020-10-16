@@ -10,7 +10,7 @@ public class NpcModule : BaseModule
 {
     private int npcIndex = 0;
 
-    List<CustomerConfigData> customerDataList;
+    //List<CustomerConfigData> customerDataList;
 
     private Dictionary<int, NpcData> mNpcDatas = new Dictionary<int, NpcData>();
 
@@ -23,7 +23,7 @@ public class NpcModule : BaseModule
     /// </summary>
     internal override void ReadData()
     {
-        customerDataList = ConfigDataManager.Instance.GetDatabase<CustomerConfigDatabase>().FindAll();
+        //customerDataList = ConfigDataManager.Instance.GetDatabase<CustomerConfigDatabase>().FindAll();
     }
     /// <summary>
     /// 创建新的NPC数据
@@ -74,10 +74,10 @@ public class NpcModule : BaseModule
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    public CustomerConfigData GetConfigDataByID(int id)
-    {
-        return customerDataList.Find(x => x.Id == id);
-    }
+    //public CustomerConfigData GetConfigDataByID(int id)
+    //{
+    //    return customerDataList.Find(x => x.Id == id);
+    //}
 
     /// <summary>
     /// 帧事件

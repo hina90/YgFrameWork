@@ -27,6 +27,18 @@ public abstract class BaseBeheviour
             return _uiCanvas;
         }
     }
+    private Transform _battleScene;
+    protected Transform battleScene
+    {
+        get
+        {
+            if (_battleScene == null)
+            {
+                _battleScene = GameObject.Find("/MainGame/BattleScene").transform;
+            }
+            return _battleScene;
+        }
+    }
     /// <summary>
     /// 主摄像机
     /// </summary>
@@ -57,7 +69,6 @@ public abstract class BaseBeheviour
             return _uiCamera;
         }
     }
-
 
 
     public T Instantiate<T>(T original) where T : UnityEngine.Object

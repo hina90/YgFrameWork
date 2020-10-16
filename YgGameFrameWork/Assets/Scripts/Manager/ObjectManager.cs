@@ -30,13 +30,13 @@ public class ObjectManager : BaseManager
 
     public override void Initialize()
     {
-        var abName1 = "Prefabs/Object/NpcObject";
-        var assetNames1 = new string[] { "NpcObject" };
-        resMgr.LoadAssetAsync<GameObject>(abName1, assetNames1, delegate (Object[] prefabs)
-        {
-            var npcPrefab = prefabs[0] as GameObject;
-            this.CreatePool(PoolNames.NPC, 5, 10, npcPrefab, true);
-        });
+        //var abName1 = "Prefabs/Object/NpcObject";
+        //var assetNames1 = new string[] { "NpcObject" };
+        //resMgr.LoadAssetAsync<GameObject>(abName1, assetNames1, delegate (Object[] prefabs)
+        //{
+        //    var npcPrefab = prefabs[0] as GameObject;
+        //    this.CreatePool(PoolNames.NPC, 5, 10, npcPrefab, true);
+        //});
 
         //var abName2 = "Prefabs/Object/BulletObject";
         //var assetNames2 = new string[] { "BulletObject" };

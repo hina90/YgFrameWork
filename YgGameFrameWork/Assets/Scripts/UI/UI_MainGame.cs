@@ -33,11 +33,11 @@ public class UI_MainGame : UIBase
             panelMgr.OpenPanel<UI_Prop>(UILayer.Fixed);
 
 
-            CTimer timeMgr = ManagementCenter.GetExtManager("TimerManager") as CTimer;
-            timeMgr.AddTimer(3, 0, (obj)=>
-            {
-                panelMgr.OpenPanel<UI_Second>(UILayer.Fixed);
-            });
+            //CTimer timeMgr = ManagementCenter.GetExtManager("TimerManager") as CTimer;
+            //timeMgr.AddTimer(3, 0, (obj)=>
+            //{
+            //    panelMgr.OpenPanel<UI_Second>(UILayer.Fixed);
+            //});
 
         });
     }

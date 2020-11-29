@@ -55,4 +55,25 @@ public static class FileUtils
             return "c:/" + AppConst.AppName + "/";
         }
     }
+    /// <summary>
+    /// 应用程序内容路径
+    /// </summary>
+    public static string AppContentPath()
+    {
+        string path = string.Empty;
+        switch (Application.platform)
+        {
+            case RuntimePlatform.Android:
+                path = Application.streamingAssetsPath + "/";
+                break;
+            case RuntimePlatform.IPhonePlayer:
+                path = Application.dataPath + "/Raw/";
+                break;
+            default:
+                path = Application.streamingAssetsPath + "/";
+                break;
+        }
+        return path;
+    }
+
 }

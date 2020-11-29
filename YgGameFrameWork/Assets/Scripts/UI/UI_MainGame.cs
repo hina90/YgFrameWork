@@ -3,10 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using System;
-using DG.Tweening;
-using Tool.Database;
-using UnityEditor.SceneManagement;
 
 
 /// <summary>

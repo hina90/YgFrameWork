@@ -16,8 +16,8 @@ public enum TextureSize
 public class TextureCompressInfo
 {
     public string assetPath;
-    public TextureImporterFormat iosFormat;
-    public TextureImporterFormat androidFormat;
+    //public TextureImporterFormat iosFormat;
+    //public TextureImporterFormat androidFormat;
     public TextureSize textureSize = TextureSize.MAX_1024;
     public bool isDynamic = false;
 }

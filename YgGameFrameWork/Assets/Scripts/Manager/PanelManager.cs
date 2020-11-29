@@ -34,6 +34,7 @@ public class PanelManager : BaseManager
 
         var resPath = "Prefabs/UI/" + panelName;
         var resMgr = ManagementCenter.GetManager<ResourceManager>();
+        //resMgr.LoadResAsync
         resMgr.LoadAssetAsync<GameObject>(resPath, new string[] { panelName }, delegate (UnityEngine.Object[] prefabs)
         {
             if(prefabs != null && prefabs[0] != null)

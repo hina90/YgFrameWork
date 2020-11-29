@@ -9,7 +9,6 @@ public class UI_Prop : UIBase
     public override void Initialize(object[] param = null)
     {
         base.Initialize(param);
-        UICamera = true;
     }
 
     protected override void Enter()

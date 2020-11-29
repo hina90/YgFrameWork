@@ -87,7 +87,7 @@ public class UIManager : BaseManager
 
     public override void OnUpdate(float deltaTime)
     {
-        Debug.Log("---------------111111111111111111---------------");
+
     }
 
 

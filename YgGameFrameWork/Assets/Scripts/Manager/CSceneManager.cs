@@ -173,17 +173,24 @@ public class CSceneManager : BaseManager
     /// <param name="size"></param>
     public void SetCamera(float x, float y, float z, float size)
     {
-        float factWidth = Screen.width;
-        float factHeight = Screen.height;
-        float factAspectRatio = factWidth / factHeight;
-        float factOrthoSize = (size * 0.56f) / factAspectRatio;
+        //float factWidth = Screen.width;
+        //float factHeight = Screen.height;
+        //float factAspectRatio = factWidth / factHeight;
+        //float factOrthoSize = (size * 0.56f) / factAspectRatio;
 
-        GameObject cameraObj = GameObject.Find("Main Camera");
-        Camera camera = cameraObj.GetComponent<Camera>();
-        camera.orthographicSize = factOrthoSize;
-        camera.transform.position = new Vector3(x, y, z);
+        //mainCamera.orthographicSize = factOrthoSize;
+        mainCamera.transform.position = new Vector3(x, y, z);
     }
-
+    /// <summary>
+    /// 设置摄像机位置和角度
+    /// </summary>
+    /// <param name="position"></param>
+    /// <param name="rotation"></param>
+    public void SetCamera(Vector3 position, Quaternion rotation)
+    {
+        mainCamera.transform.position = position;
+        mainCamera.transform.rotation = rotation;
+    }
     /// <summary>
     /// 
     /// </summary>

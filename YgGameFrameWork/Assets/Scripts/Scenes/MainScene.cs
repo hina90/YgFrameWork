@@ -17,8 +17,10 @@ public class MainScene : BaseScene
     {
         base.OnCreate(param);
         ResName = "MainScene";
+        sceneMgr.SetCamera(new Vector3(16.12f, 27.86f, -14.48f), Quaternion.Euler(50.49f, -78.1f, 9.4f));
+
     }
-    
+
     /// <summary>
     /// 进入主场景
     /// </summary>

@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.U2D;
 
 using UObject = UnityEngine.Object;
 
@@ -16,20 +11,35 @@ using UObject = UnityEngine.Object;
 public class ResourceManager : BaseManager
 {
     SimAssetManager mSimMgr = null;
+    ResAssetManager mResMgr = null;
 
     public override void Initialize()
     {
-        mSimMgr = new SimAssetManager(this);
+        if (AppConst.DebugMode)
+        {
+            mSimMgr = new SimAssetManager(this);
+        }
+        else
+        {
+            mResMgr = new ResAssetManager(this);
+        }
     }
 
     public void InitMainfest(string mainfestName, Action initOk)
     {
-        mSimMgr.Initialize(initOk);
+        if (AppConst.DebugMode)
+        {
+            mSimMgr.Initialize(initOk);
+        }
+        else
+        {
+            mResMgr.Initialize(initOk);
+        }
     }
 
     public override void OnUpdate(float deltaTime)
     {
-        mSimMgr.Update(deltaTime);
+        //mResMgr.Update(deltaTime);
     }
 
     public override void OnDispose()
@@ -43,14 +53,9 @@ public class ResourceManager : BaseManager
     /// <typeparam name="T"></typeparam>
     /// <param name="path"></param>
     /// <returns></returns>
-    public T LoadResAsset<T>(string path) where T : UObject
+    public GameObject LoadResAsset(string prefabName, AssetsType type)
     {
-        UObject o = Resources.Load<T>(path);
-        if (o == null)
-        {
-            return null;
-        }
-        return o as T;
+        return mResMgr.LoadAseet(prefabName, type);
     }
     /// <summary>
     /// 加载文件夹下的批量资源
@@ -61,6 +66,10 @@ public class ResourceManager : BaseManager
     public T[] LoadResAssets<T>(string path) where T : UObject
     {
         return Resources.LoadAll<T>(path);
+    }
+    public ResourceRequest LoadResAsync<T>(string path) where T : UObject
+    {
+        return Resources.LoadAsync<T>(path);
     }
     /// <summary>
     /// 加载二进制资源或者字符串资源
@@ -95,7 +104,10 @@ public class ResourceManager : BaseManager
     public void LoadAssetAsync<T>(string abName, string[] assetNames, Action<UObject[]> func)
     {
         var assetType = typeof(T);
-        mSimMgr.LoadAsset(abName, assetNames, assetType, func);
+        if(AppConst.DebugMode)
+        {
+            mSimMgr.LoadAsset(abName, assetNames, assetType, func);
+        }
     }
 
     //   /// <summary>

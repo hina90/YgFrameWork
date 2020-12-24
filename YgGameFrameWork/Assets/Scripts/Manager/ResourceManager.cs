@@ -53,9 +53,9 @@ public class ResourceManager : BaseManager
     /// <typeparam name="T"></typeparam>
     /// <param name="path"></param>
     /// <returns></returns>
-    public GameObject LoadResAsset(string prefabName, AssetsType type)
+    public void LoadResAsset(string prefabName, AssetsType type, Action<UObject> func)
     {
-        return mResMgr.LoadAseet(prefabName, type);
+        mResMgr.LoadAseet(prefabName, type, func);
     }
     /// <summary>
     /// 加载文件夹下的批量资源
@@ -109,7 +109,6 @@ public class ResourceManager : BaseManager
             mSimMgr.LoadAsset(abName, assetNames, assetType, func);
         }
     }
-
     //   /// <summary>
     ///// 容器类
     ///// </summary>

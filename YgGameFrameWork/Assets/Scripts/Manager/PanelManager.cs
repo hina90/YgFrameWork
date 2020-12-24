@@ -31,13 +31,19 @@ public class PanelManager : BaseManager
         if(parent.Find(panelName) != null)
             return;
 
-
-        var resPath = "Prefabs/UI/" + panelName;
         var resMgr = ManagementCenter.GetManager<ResourceManager>();
-        //resMgr.LoadResAsync
+        //resMgr.LoadResAsset(panelName, AssetsType.UI, delegate(UnityEngine.Object prefab)
+        //{
+        //    if (prefab != null)
+        //    {
+        //        GameObject panelObj = CreatePanelInternal<T>(panelName, prefab as GameObject, parent, param);
+        //        panelObj.GetComponent<Canvas>().sortingOrder = (int)layer + parent.childCount;
+        //    }
+        //});
+        var resPath = "Prefabs/UI/" + panelName;
         resMgr.LoadAssetAsync<GameObject>(resPath, new string[] { panelName }, delegate (UnityEngine.Object[] prefabs)
         {
-            if(prefabs != null && prefabs[0] != null)
+            if (prefabs != null && prefabs[0] != null)
             {
                 GameObject panelObj = CreatePanelInternal<T>(panelName, prefabs[0] as GameObject, parent, param);
                 panelObj.GetComponent<Canvas>().sortingOrder = (int)layer + parent.childCount;

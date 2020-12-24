@@ -16,14 +16,12 @@ public class AssetBundleInfo
         m_ReferencedCount = RefCount;
     }
 }
-
 class LoadAssetRequest
 {
     public Type assetType;
     public string[] assetNames;
     public Action<UObject[]> sharpFunc; 
 }
-
 class UnloadAssetBundleRequest
 {
     public string abName;
@@ -90,7 +88,15 @@ public class AssetBundleManager
     public void Initialize(string mainfestName, Action initOk)
     {
         UnloadAssetBundle(mainfestName, true);
-
+        LoadAsset(mainfestName, new string[] { "AssetBundleManifest" }, typeof(AssetBundleManifest), delegate(UObject[] objs)
+        { 
+            if(objs.Length > 0)
+            {
+                m_AssetBundleMainfest = objs[0] as AssetBundleManifest;
+                m_AllMainfest = m_AssetBundleMainfest.GetAllAssetBundles();
+            }
+            initOk?.Invoke();
+        });
     }
 
     /// <summary>
@@ -128,7 +134,7 @@ public class AssetBundleManager
         AssetBundleInfo bundleInfo = GetLoadedAssetBundle(abName);
         if(bundleInfo == null)
         {
-            yield return mResMgr.StartCoroutine(OnLoadAsset(abName, assetType));
+            yield return mResMgr.StartCoroutine(OnLoadAssetBundle(abName, assetType));
 
             bundleInfo = GetLoadedAssetBundle(abName);
             if(bundleInfo == null)
@@ -138,6 +144,42 @@ public class AssetBundleManager
                 yield break;
             }
         }
+        List<LoadAssetRequest> list = null;
+        if(!m_LoadRequests.TryGetValue(abName, out list))
+        {
+            m_LoadRequests.Remove(abName);
+            yield break;
+        }
+        for(int i = 0; i < list.Count; i++)
+        {
+            string[] assetNames = list[i].assetNames;
+            List<UObject> result = new List<UObject>();
+
+            AssetBundle ab = bundleInfo.m_AssetBundle;
+            if(assetNames != null)
+            {
+                for(int j = 0; j < assetNames.Length; j++)
+                {
+                    string assetPath = assetNames[j];
+                    var request = ab.LoadAssetAsync(assetPath, assetType);
+                    yield return request;
+                    result.Add(request.asset);
+                }
+            }
+            else
+            {
+                var request = ab.LoadAllAssetsAsync();
+                yield return request;
+                result = new List<UObject>(request.allAssets);
+            }
+            if(list[i].sharpFunc != null)
+            {
+                list[i].sharpFunc(result.ToArray());
+                list[i].sharpFunc = null;
+            }
+            bundleInfo.m_ReferencedCount++;
+        }
+        m_LoadRequests.Remove(abName);
     }
     /// <summary>
     /// 加载bundle资源

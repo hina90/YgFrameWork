@@ -83,6 +83,7 @@ public class BaseScene:BaseBeheviour
     {
         var resPath = "Maps/" + mapName;
         var resMgr = ManagementCenter.GetManager<ResourceManager>();
+
         resMgr.LoadAssetAsync<GameObject>(resPath, new string[] { mapName }, delegate (UnityEngine.Object[] prefabs)
         {
             if (prefabs != null && prefabs[0] != null)

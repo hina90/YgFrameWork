@@ -79,12 +79,12 @@ public class ResAssetManager
     /// <param name="prefabName"></param>
     /// <param name="type"></param>
     /// <returns></returns>
-    public GameObject LoadAseet(string prefabName, AssetsType type)
+    public void LoadAseet(string prefabName, AssetsType type, Action<UnityEngine.Object> func)
     {
         GameObject prefab = prefabPool[(int)type].details.TryGet(prefabName);
         if (prefab == null) prefab = AddAsset(prefabName, type);
 
-        return prefab;
+        func?.Invoke(prefab);
     }
     /// <summary>
     /// 加载获取动态图集图片
